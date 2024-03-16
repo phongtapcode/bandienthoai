@@ -5,6 +5,7 @@
     justify-content: space-between;
     align-items: center;
     position: relative;
+    background-color: white;
     &__left{
         span{
             font-size: 15px;
@@ -53,7 +54,7 @@
     }
 
     &:hover{
-        background-color: rgba(0, 0, 0, 0.103);
+        background-color: rgb(231, 231, 231);
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         .itemcategory__iconchev{
             transition: transform 0.4s ease;

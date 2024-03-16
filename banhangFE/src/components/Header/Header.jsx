@@ -2,6 +2,7 @@ import "./Header.scss";
 import { Input } from "antd";
 import ItemCategory from "./components/ItemCategory/ItemCategory";
 import { useState } from "react";
+import {Badge} from "antd";
 const { Search } = Input;
 
 const menu = [
@@ -108,7 +109,12 @@ const categoryTech = [
 
 function Header() {
   const [currentMenu,setCurrentMenu] = useState(0);
+  const [hiddenCategory,setHiddenCategory] = useState(false);
   const onSearch = (value, _e, info) => console.log(info?.source, value);
+
+  const handleClickTitleCategory = ()=>{
+    setHiddenCategory(!hiddenCategory);
+  }
 
   return (
     <header className="header">
@@ -142,12 +148,12 @@ function Header() {
 
         <div className="header__inner__right">
           <div className="header__inner__right--login">
-            <a href="#">ĐĂNG NHẬP/ĐĂNG KÍ</a>
+            <a href="/sign-in">ĐĂNG NHẬP/ĐĂNG KÍ</a>
           </div>
           <div className="header__inner__right--cart">
             <a href="#">
               <span>
-                GIỎ HÀNG<i className="fa-solid fa-cart-shopping"></i>
+                GIỎ HÀNG<Badge count={1} offset={[5,-6]}><i className="fa-solid fa-cart-shopping"></i></Badge>
               </span>
             </a>
           </div>
@@ -156,8 +162,8 @@ function Header() {
 
       <div className="header__bottom">
         <div className="header__bottom__category">
-          <h1 className="header__bottom__category--title">DANH MỤC SẢN PHẨM</h1>
-          {categoryTech.map((category, index) => (
+          <h1 className="header__bottom__category--title" onClick={handleClickTitleCategory}>DANH MỤC SẢN PHẨM</h1>
+          {hiddenCategory || categoryTech.map((category, index) => (
             <ItemCategory data={category} key={index} />
           ))}
         </div>

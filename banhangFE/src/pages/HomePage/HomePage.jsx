@@ -1,3 +1,4 @@
+import Card from '../../components/Card/Card'
 import Carousel from '../../components/Carousel/Carousel'
 import './HomePage.scss'
 
@@ -17,6 +18,15 @@ function HomePage(){
             <div className='main__content__right'>
                 <img src='/src/assets/image/phukiengiamgia.jpg'/>
             </div>
+        </div>
+
+        <div className='main__product'>
+        <Card/>
+        <Card/>
+        <Card/>
+        <Card/>
+        <Card/>
+        <Card/>
         </div>
         </main>
     )

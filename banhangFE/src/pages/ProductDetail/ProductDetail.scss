@@ -1,0 +1,156 @@
+.productdetail{
+    width: 95%;
+    height: 800px;
+    margin: 0 auto;
+    display: flex;
+    margin-top: 13px;
+    justify-content: space-between;
+    &__image{
+        width: 50%;
+        text-align: center;
+    }
+
+    &__infor{
+        width: 50%;
+        &--title{
+            font-size: 2.6rem;
+            font-weight: 640;
+            margin-bottom: 10px;
+        }
+
+        &--price{
+            color: rgb(206, 11, 11);
+            font-weight: 650;
+            font-size: 2rem;
+        }
+
+        &__memoryprice{
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 7px;
+            margin-top: 15px;
+            &--item{
+                border-radius: 7px;
+                text-align: center;
+                display: inline-block;
+                background-color: #e9ecef;
+                padding: 7px 0;
+                font-size: 12px;
+                font-weight: 700;
+                cursor: pointer;
+                &:hover{
+                    background-color: rgba(0, 0, 0, 0.438);
+                }
+            }
+            .active{
+                background-color: black;
+                color: white;
+            }
+        }
+
+        &--shortdescription{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-top: 15px;
+            margin-bottom: 17px;
+            line-height: 25px;
+            span{
+                color: #1C1C1C;
+                font-size: 1.4rem;
+                font-weight: 500;
+                i{
+                    color: green;
+                    margin-right: 5px;
+                }
+            }
+        }
+
+        &__countproduct{
+            width: 100%;
+            &--location{
+                width: 100%;
+                font-size: 1.5rem;
+                margin-bottom: 17px;
+                p{
+                    display: inline-block;
+                    text-decoration: underline;
+                }
+                a{
+                    text-decoration: none;
+                }
+            }
+
+            &--buttonadd{
+                margin-bottom: 20px;
+                button{
+                    border: 1px solid rgba(0, 0, 0, 0.411);
+                    padding: 10px 10px;
+                    font-size: 15px;
+                    cursor: pointer;
+                    &:active{
+                        background-color: rgba(0, 0, 0, 0.404);
+                    }
+                }
+                span{
+                    padding: 11px;
+                    font-size: 1.5rem;
+                    border: 1px solid rgba(0, 0, 0, 0.411);
+                }
+            }
+
+            &--buttonbuy{
+                display: inline-block;
+                padding: 8px 40px;
+                background-color: #f57e20;
+                border-radius: 10px;
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: white;
+                margin-bottom: 10px;
+                cursor: pointer;
+                &:hover{
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                    color: aquamarine;
+                }
+
+                &:active{
+                    background-color: #f57c20a2;
+                }
+            }
+        }
+
+        &__detailparam{
+            font-size: 1.5rem;
+            cursor: pointer;
+            text-decoration: none;
+            &:hover{
+                color: #f57e20;
+                border-bottom: 1px solid #f57e20;
+            }
+        }
+
+        &__param{
+            margin-top: 10px;
+            background-color: #ddd9d9;
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            span{
+                font-size: 1.5rem;
+                margin-left: 15px;
+                margin-bottom: 10px;
+                i{
+                    font-size: 19px;
+                    margin-right: 10px;
+                }
+            }
+            span:first-child{
+                margin-top: 10px;
+            }
+            span:last-child{
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
