@@ -13,7 +13,7 @@ const createUser = (newUser) => {
       if (checkUser !== null) {
         resolve({
           status: "ERR",
-          message: "The email is already",
+          message: "Email đã tồn tại",
         });
       }
       // Tạo mã hóa password
@@ -40,7 +40,7 @@ const createUser = (newUser) => {
 
 const loginUser = (userLogin) => {
   return new Promise(async (resolve, reject) => {
-    const { name, email, password, confirmPassword, phone } = userLogin;
+    const {email, password} = userLogin;
     try {
       const checkUser = await User.findOne({
         email: email,
@@ -57,7 +57,7 @@ const loginUser = (userLogin) => {
 
       if (!comparePassword) {
         resolve({
-          status: "OK",
+          status: "ERR",
           message: "The password or user is incorrect"
         });
       }

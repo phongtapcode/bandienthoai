@@ -1,9 +1,23 @@
 import { routes } from "./routes";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DefaultComponent from "./components/DefaultComponents/DefaultComponents";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 function App() {
+
+  // dùng react query
+  // const fetchApi = async () => {
+    // const res = await axios.get(
+    //   `${import.meta.env.VITE_SOME_KEY_URL}/product/getAll`
+    // );
+    // return res.data;
+  // };
+
+  // const query = useQuery({ queryKey: ["todos"], queryFn: fetchApi });
+  // console.log(query.data);
+
   return (
     <div>
       <Router>

@@ -1,4 +1,5 @@
 const UserService = require('../services/UserService')
+const JwtService = require('../services/JwtService')
 
 const createUser = async (req,res)=>{
     try{
@@ -6,7 +7,7 @@ const createUser = async (req,res)=>{
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const isCheckEmail = reg.test(email);
 
-        if(!name || !email || !password || !confirmPassword || !phone){
+        if( !email || !password || !confirmPassword ){
             return res.status(200).json({
                 status: "ERR",
                 message: "The input is required"
@@ -14,12 +15,12 @@ const createUser = async (req,res)=>{
         }else if(!isCheckEmail){
             return res.status(200).json({
                 status: "ERR",
-                message: "The input is email"
+                message: "Vui lòng nhập email"
             })
         }else if(password !== confirmPassword){
             return res.status(200).json({
                 status: "ERR",
-                message: "password false"
+                message: "Mật khẩu xác nhận chưa chính xác"
             })
         }
         const response = await UserService.createUser(req.body);
@@ -31,11 +32,12 @@ const createUser = async (req,res)=>{
 
 const loginUser = async (req,res)=>{
     try{
-        const {name,email,password,confirmPassword,phone} = req.body;
+        const {email,password} = req.body;
+        console.log(req.body);
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const isCheckEmail = reg.test(email);
 
-        if(!name || !email || !password || !confirmPassword || !phone){
+        if(!email || !password){
             return res.status(200).json({
                 status: "ERR",
                 message: "The input is required"
@@ -44,11 +46,6 @@ const loginUser = async (req,res)=>{
             return res.status(200).json({
                 status: "ERR",
                 message: "The input is email"
-            })
-        }else if(password !== confirmPassword){
-            return res.status(200).json({
-                status: "ERR",
-                message: "password false"
             })
         }
         
@@ -69,7 +66,6 @@ const updateUser = async (req,res)=>{
                 message: "The userId is required"
             })
         }
-        console.log(userId)
         const response = await UserService.updateUser(userId,data);
         return res.status(200).json(response);
     }catch(e){
@@ -106,7 +102,7 @@ const getAllUser = async (req,res)=>{
 
 const getDetailsUser = async (req,res)=>{
     try{
-        const userId = req.params.id;
+        const userId = req.params.id; 
 
         if(!userId){
             return res.status(200).json({
@@ -122,11 +118,30 @@ const getDetailsUser = async (req,res)=>{
     }
 }
 
+const refreshToken = async (req,res)=>{
+    try{
+        const token = req.headers.token.split(' ')[1]; 
+
+        if(!token){
+            return res.status(200).json({
+                status: "ERR",
+                message: "The userId is required"
+            })
+        }
+
+        const response = await JwtService.refreshTokenService(token);
+        return res.status(200).json(response);
+    }catch(e){
+        return res.status(404).json({message:e})
+    }
+}
+
 module.exports = {
     createUser,
     loginUser,
     updateUser,
     deleteUser,
     getAllUser,
-    getDetailsUser
+    getDetailsUser,
+    refreshToken
 }

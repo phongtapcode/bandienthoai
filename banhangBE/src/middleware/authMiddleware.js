@@ -9,7 +9,7 @@ const  authMiddleware = (req,res,next)=>{
             return res.status(404).json({
                 status: "ERR",
                 message: "The auth"
-            })
+            }) 
         }
         const {payload} = user;
         if(payload?.isAdmin){
