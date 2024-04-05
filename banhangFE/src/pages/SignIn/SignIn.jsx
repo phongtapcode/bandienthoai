@@ -8,7 +8,7 @@ import Loading from "../../components/Loading/Loading";
 import * as UserService from "../../services/UserService";
 import * as message from "../../components/Message/Message";
 import { setUserInfor } from "../../redux/action";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function SignIn() {
   const dispatch = useDispatch();

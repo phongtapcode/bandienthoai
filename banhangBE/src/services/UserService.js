@@ -28,7 +28,7 @@ const createUser = (newUser) => {
       if (createdUser) {
         resolve({
           status: "Success",
-          message: "Success",
+          message: "Tạo thành công",
           data: createUser,
         });
       }
@@ -49,7 +49,7 @@ const loginUser = (userLogin) => {
       if (checkUser === null) {
         resolve({
           status: "ERR",
-          message: "The user is not defined",
+          message: "Tài khoản không tồn tại",
         });
       }
 
@@ -58,7 +58,7 @@ const loginUser = (userLogin) => {
       if (!comparePassword) {
         resolve({
           status: "ERR",
-          message: "The password or user is incorrect"
+          message: "Mật khẩu hoặc Email không chính xác"
         });
       }
 
@@ -74,7 +74,7 @@ const loginUser = (userLogin) => {
 
       resolve({
         status: "Success",
-        message: "Success",
+        message: "Đăng nhập thành công",
         access_token,
         refresh_token
       })
@@ -100,7 +100,7 @@ const updateUser = (id,data) => {
 
       return resolve({
         status: "Success",
-        message: "Success",
+        message: "Cập nhật thành công",
         data: updatedUser
       })
     } catch (e) {
@@ -117,7 +117,7 @@ const deleteUser = (id) => {
       if (checkUser === null) {
         resolve({
           status: "ERR",
-          message: "The user is not defined",
+          message: "Không có người dùng",
         });
       }
 
@@ -125,7 +125,7 @@ const deleteUser = (id) => {
 
       return resolve({
         status: "Success",
-        message: "Delete success"
+        message: "Xóa thành công"
       })
     } catch (e) {
       reject(e);
