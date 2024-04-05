@@ -3,6 +3,8 @@ import { Input } from "antd";
 import ItemCategory from "./components/ItemCategory/ItemCategory";
 import { useState } from "react";
 import {Badge} from "antd";
+import { useSelector } from "react-redux";
+
 const { Search } = Input;
 
 const menu = [
@@ -109,12 +111,15 @@ const categoryTech = [
 
 function Header() {
   const [currentMenu,setCurrentMenu] = useState(0);
+  const dataUser = useSelector((state) => state.dataUser);
   const [hiddenCategory,setHiddenCategory] = useState(false);
   const onSearch = (value, _e, info) => console.log(info?.source, value);
 
   const handleClickTitleCategory = ()=>{
     setHiddenCategory(!hiddenCategory);
   }
+
+  console.log(dataUser);
 
   return (
     <header className="header">
@@ -148,7 +153,7 @@ function Header() {
 
         <div className="header__inner__right">
           <div className="header__inner__right--login">
-            <a href="/sign-in">ĐĂNG NHẬP/ĐĂNG KÍ</a>
+            {dataUser.name ? (<a>{dataUser.name}</a>) : (<a href="/sign-in">ĐĂNG NHẬP/ĐĂNG KÍ</a>)}
           </div>
           <div className="header__inner__right--cart">
             <a href="#">

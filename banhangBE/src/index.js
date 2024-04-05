@@ -3,8 +3,11 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const routes = require("./routers");
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser');
 const app = express();
 const cors = require("cors");
+
+app.use(cookieParser());
 
 dotenv.config();
 const port = process.env.PORT || 3001;

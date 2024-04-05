@@ -1,8 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from './slides/CounterSlide'
+import { configureStore } from "@reduxjs/toolkit";
+import Reducer from "./reducer";
 
-export const store = configureStore({
-  reducer: {
-    counter: counterReducer
-  }
-})
+const store = configureStore({
+    reducer: Reducer,
+});
+
+export default store;

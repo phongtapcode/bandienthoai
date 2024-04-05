@@ -27,7 +27,7 @@ const createUser = (newUser) => {
       });
       if (createdUser) {
         resolve({
-          status: "OK",
+          status: "Success",
           message: "Success",
           data: createUser,
         });
@@ -73,7 +73,7 @@ const loginUser = (userLogin) => {
         })
 
       resolve({
-        status: "OK",
+        status: "Success",
         message: "Success",
         access_token,
         refresh_token
@@ -99,7 +99,7 @@ const updateUser = (id,data) => {
       const updatedUser = await User.findByIdAndUpdate(id,data,{new: true});
 
       return resolve({
-        status: "OK",
+        status: "Success",
         message: "Success",
         data: updatedUser
       })
@@ -124,7 +124,7 @@ const deleteUser = (id) => {
       const deletedUser = await User.findByIdAndDelete(id);
 
       return resolve({
-        status: "OK",
+        status: "Success",
         message: "Delete success"
       })
     } catch (e) {
@@ -139,7 +139,7 @@ const getAllUser = () => {
       const allUser = await User.find();
 
       return resolve({
-        status: "OK",
+        status: "Success",
         message: "All User",
         data: allUser
       })
@@ -155,8 +155,8 @@ const getDetailsUser = (id) => {
       const checkUser = await User.findOne({_id:id});
 
       return resolve({
-        status: "OK",
-        message: "All User",
+        status: "Success",
+        message: "DetailUser",
         data: checkUser
       })
     } catch (e) {

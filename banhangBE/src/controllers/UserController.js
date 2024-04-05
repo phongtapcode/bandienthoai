@@ -33,24 +33,30 @@ const createUser = async (req,res)=>{
 const loginUser = async (req,res)=>{
     try{
         const {email,password} = req.body;
-        console.log(req.body);
+
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const isCheckEmail = reg.test(email);
 
         if(!email || !password){
             return res.status(200).json({
                 status: "ERR",
-                message: "The input is required"
+                message: "Vui lòng nhập tài khoản"
             })
         }else if(!isCheckEmail){
             return res.status(200).json({
                 status: "ERR",
-                message: "The input is email"
+                message: "Email không hợp lệ"
             })
         }
         
         const response = await UserService.loginUser(req.body);
-        return res.status(200).json(response);
+        const { refresh_token, ...newRespon} = response;
+        res.cookie("refresh_token",refresh_token,{
+            httpOnly: true,
+            secure: false,
+            sameSite: "strict"
+        });
+        return res.status(200).json(newRespon);
     }catch(e){
         return res.status(404).json({message:e})
     }
@@ -103,7 +109,7 @@ const getAllUser = async (req,res)=>{
 const getDetailsUser = async (req,res)=>{
     try{
         const userId = req.params.id; 
-
+        
         if(!userId){
             return res.status(200).json({
                 status: "ERR",
@@ -120,8 +126,8 @@ const getDetailsUser = async (req,res)=>{
 
 const refreshToken = async (req,res)=>{
     try{
-        const token = req.headers.token.split(' ')[1]; 
-
+        const token = req.cookies.refresh_token; 
+        console.log("req.cookies.refresh_token",req.cookies.refresh_token);
         if(!token){
             return res.status(200).json({
                 status: "ERR",

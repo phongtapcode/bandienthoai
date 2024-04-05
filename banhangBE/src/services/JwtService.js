@@ -4,15 +4,15 @@ dotenv.config();
 
 const genneralAccessToken = async (payload) => {
     const access_token = jwt.sign({
-        payload
-    }, process.env.ACCESS_TOKEN, { expiresIn: '60s' })
+        ...payload
+    }, process.env.ACCESS_TOKEN, { expiresIn: '30s' })
 
     return access_token
 }
 
 const genneralRefreshToken = async (payload) => {
     const refresh_token = jwt.sign({
-        payload
+        ...payload
     }, process.env.REFRESH_TOKEN, { expiresIn: '365d' })
 
     return refresh_token
@@ -29,15 +29,14 @@ const refreshTokenService = (token) => {
                     })
                 }
 
-                const {payload} = user;
                 const access_token = await genneralAccessToken({
-                    id: payload?.id,
-                    isAdmin: payload?.isAdmin
+                    id: user?.id,
+                    isAdmin: user?.isAdmin
                   })
 
                 return resolve({
                     status: "OK",
-                    message: "Success",
+                    message: "Success refresh_token",
                     access_token
                   })
             })

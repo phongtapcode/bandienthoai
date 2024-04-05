@@ -13,7 +13,7 @@ function ItemCategory({ data }) {
       )}
       {data.iconChevron && (
         <ul className="itemcategory__treemenu">
-        {data.children.map((item,index)=>(<li><a href={item.href}>{item.name}</a></li>))}
+        {data.children.map((item,index)=>(<li key={index}><a href={item.href}>{item.name}</a></li>))}
         </ul>
       )}
     </div>

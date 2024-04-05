@@ -2,21 +2,56 @@ import { routes } from "./routes";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DefaultComponent from "./components/DefaultComponents/DefaultComponents";
 import { Fragment, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { jwtDecode } from "jwt-decode";
+import * as UserService from "./services/UserService"
+import { setUserInfor } from "./redux/action";
+import { useDispatch } from "react-redux";
+import { isJsonString } from "./utils";
 import axios from "axios";
 
 function App() {
+  const dispatch = useDispatch();
 
-  // dùng react query
-  // const fetchApi = async () => {
-    // const res = await axios.get(
-    //   `${import.meta.env.VITE_SOME_KEY_URL}/product/getAll`
-    // );
-    // return res.data;
-  // };
+  useEffect(()=>{
+    const {decoded,storageData} = handleDecoded();
+    console.log(decoded,storageData);
+      if(decoded?.id){
+        handleGetDetailUser(decoded?.id,storageData);
+      }
 
-  // const query = useQuery({ queryKey: ["todos"], queryFn: fetchApi });
-  // console.log(query.data);
+  },[])
+
+  UserService.axiosJWT.interceptors.request.use(async function (config) {
+    const {decoded,storageData} = handleDecoded();
+    const currentTime = new Date();
+    
+    if(decoded?.exp < currentTime.getTime()/1000){
+      // nếu thời gian hết hạn token < thời gian thực tính theo ms
+      const data = await UserService.refreshToken();
+        config.headers["token"] = `Bearer ${data?.access_token}`;
+      }
+
+    return config;
+  }, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  });
+
+  const handleDecoded = () => {
+    let storageData = localStorage.getItem("access_token");
+    let decoded = {};
+    if(storageData && isJsonString(storageData)){
+      storageData = JSON.parse(storageData);
+      decoded = jwtDecode(storageData);
+    }
+
+    return {decoded,storageData};
+  }
+
+  const handleGetDetailUser = async (id,access_token)=>{
+    const res = await UserService.getDetailsUser(id,access_token);
+    dispatch(setUserInfor({...res?.data,access_token: access_token}));
+  }
 
   return (
     <div>

@@ -1,46 +1,69 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 import "./SignIn.scss";
+import { jwtDecode } from "jwt-decode";
 import { Button, Checkbox, Form, Input } from "antd";
-import { useMutation } from '@tanstack/react-query';
-import Loading from '../../components/Loading/Loading';
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import Loading from "../../components/Loading/Loading";
 import * as UserService from "../../services/UserService";
+import * as message from "../../components/Message/Message";
+import { setUserInfor } from "../../redux/action";
+import { useDispatch, useSelector } from "react-redux";
 
 function SignIn() {
-  const [validate,setValidate] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    remember: true
+    email: "",
+    password: "",
+    remember: true,
   });
 
   const mutation = useMutation({
     mutationFn: (data) => {
       return UserService.loginUser(data);
     },
-  })
+  });
 
-const {data,isPending} = mutation;
-console.log(isPending,data)
+  const { data, isPending } = mutation;
+
+  useEffect(() => {
+    if (data?.status === "Success") {
+      localStorage.setItem("access_token", JSON.stringify(data?.access_token));
+      message.success("Đăng nhập thành công");
+      navigate("/");
+      if (data?.access_token) {
+        const decoded = jwtDecode(data?.access_token);
+
+        if (decoded?.id) {
+          handleGetDetailUser(decoded?.id, data?.access_token);
+        }
+      }
+    }
+  }, [data?.status]);
+
+  const handleGetDetailUser = async (id, access_token) => {
+    const res = await UserService.getDetailsUser(id, access_token);
+    dispatch(setUserInfor({ ...res?.data, access_token: access_token }));
+  };
 
   const handleChange = (e) => {
     const { name, value, checked, type } = e.target;
-    const newValue = type === 'checkbox' ? checked : value;
-    setFormData(prevState => ({
+    const newValue = type === "checkbox" ? checked : value;
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: newValue
+      [name]: newValue,
     }));
   };
 
   const handleSubmit = () => {
-    // e.preventDefault();
     const email = formData.email;
     const password = formData.password;
-    
+
     mutation.mutate({
       email,
-      password
-    })
-    // setValidate(formData.confirmPassword !== formData.password ? "Mật khẩu xác nhận chưa đúng":"");
+      password,
+    });
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -56,9 +79,7 @@ console.log(isPending,data)
       wrapperCol={{
         span: 16,
       }}
-      style={{
-        maxWidth: 1000,
-      }}
+      style={{}}
       initialValues={{
         remember: true,
       }}
@@ -90,11 +111,19 @@ console.log(isPending,data)
           },
         ]}
       >
-        <Input.Password name="password" value={formData.password} onChange={handleChange} />
+        <Input.Password
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
       </Form.Item>
-      
-      {data?.status === "ERR" && <div style={{width: "100%",textAlign: "center"}}>{data?.message}</div>}
-      
+
+      {data?.status === "ERR" && (
+        <div style={{ width: "100%", textAlign: "center" }}>
+          {data?.message}
+        </div>
+      )}
+
       <Form.Item
         name="remember"
         valuePropName="checked"
@@ -102,26 +131,32 @@ console.log(isPending,data)
           offset: 8,
           span: 16,
         }}
+        style={{ marginBottom: "0" }}
       >
-        <Checkbox name="remember" checked={formData.remember} onChange={handleChange}>Remember me</Checkbox>
+        <Checkbox
+          name="remember"
+          checked={formData.remember}
+          onChange={handleChange}
+        >
+          Remember me
+        </Checkbox>
+        <span className="forgetpassword">Quên mật khẩu</span>
       </Form.Item>
 
-      <Form.Item
-        wrapperCol={{
-          offset: 8,
-          span: 16,
-        }}
-      >
-        <a href="/sign-up">Bạn chưa có tài khoản</a>
-        <div style={{color: 'red'}}>{validate}</div>
-
-        <Loading isLoading={isPending}>
-        <Button type="primary" htmlType="submit" style={(!formData.password || !formData.email)?{backgroundColor: "grey"}:{backgroundColor: "blue"}}>
+      <Loading isLoading={isPending}>
+        <Button
+          type="primary"
+          htmlType="submit"
+          style={
+            !formData.password || !formData.email
+              ? { backgroundColor: "grey" }
+              : { backgroundColor: "#ff7235" }
+          }
+        >
           Đăng nhập
         </Button>
-        </Loading>
-
-      </Form.Item>
+      </Loading>
+      <a href="/sign-up">Bạn chưa có tài khoản</a>
     </Form>
   );
 }
