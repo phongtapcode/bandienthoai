@@ -1,0 +1,30 @@
+.profile {
+    width: 450px;
+    max-height: 95%;
+    margin: 0 auto;
+    border-radius: 40px;
+    box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+    display: flex;
+    flex-direction: column;
+
+    button {
+        border: none;
+        outline: none;
+        cursor: pointer;
+        width: 50%;
+        height: 51px;
+        border-radius: 30px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #fff;
+        text-align: center;
+        box-shadow: 3px 3px 8px #b1b1b1, -3px -3px 8px #fff;
+        background-color: #ff7235;
+        transition: all .4s;
+        margin: 15px auto;
+    }
+}
+
+.ant-spin-nested-loading{
+    text-align: center;
+}

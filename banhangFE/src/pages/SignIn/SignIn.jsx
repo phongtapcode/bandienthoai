@@ -28,7 +28,7 @@ function SignIn() {
   const { data, isPending } = mutation;
 
   useEffect(() => {
-    if (data?.status === "Success") {
+    if (data?.status === "OK") {
       localStorage.setItem("access_token", JSON.stringify(data?.access_token));
       message.success("Đăng nhập thành công");
       navigate("/");

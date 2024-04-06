@@ -141,3 +141,18 @@
         }
     }
 }
+
+.ant-popover{
+    .ant-popover-inner{
+        p{
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+            &:hover{
+                background-color: #f3812a;
+            }
+        }
+    }
+}

@@ -27,7 +27,7 @@ const createUser = (newUser) => {
       });
       if (createdUser) {
         resolve({
-          status: "Success",
+          status: "OK",
           message: "Tạo thành công",
           data: createUser,
         });
@@ -73,7 +73,7 @@ const loginUser = (userLogin) => {
         })
 
       resolve({
-        status: "Success",
+        status: "OK",
         message: "Đăng nhập thành công",
         access_token,
         refresh_token
@@ -99,7 +99,7 @@ const updateUser = (id,data) => {
       const updatedUser = await User.findByIdAndUpdate(id,data,{new: true});
 
       return resolve({
-        status: "Success",
+        status: "OK",
         message: "Cập nhật thành công",
         data: updatedUser
       })
@@ -124,7 +124,7 @@ const deleteUser = (id) => {
       const deletedUser = await User.findByIdAndDelete(id);
 
       return resolve({
-        status: "Success",
+        status: "OK",
         message: "Xóa thành công"
       })
     } catch (e) {
@@ -139,7 +139,7 @@ const getAllUser = () => {
       const allUser = await User.find();
 
       return resolve({
-        status: "Success",
+        status: "OK",
         message: "All User",
         data: allUser
       })
@@ -155,7 +155,7 @@ const getDetailsUser = (id) => {
       const checkUser = await User.findOne({_id:id});
 
       return resolve({
-        status: "Success",
+        status: "OK",
         message: "DetailUser",
         data: checkUser
       })

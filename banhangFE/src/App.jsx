@@ -14,11 +14,9 @@ function App() {
 
   useEffect(()=>{
     const {decoded,storageData} = handleDecoded();
-    console.log(decoded,storageData);
       if(decoded?.id){
         handleGetDetailUser(decoded?.id,storageData);
       }
-
   },[])
 
   UserService.axiosJWT.interceptors.request.use(async function (config) {

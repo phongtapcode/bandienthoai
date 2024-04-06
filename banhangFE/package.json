@@ -2,10 +2,9 @@
   "name": "banhangfe",
   "private": true,
   "version": "0.0.0",
-  "proxy": "http://localhost:3001",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port=3000",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"

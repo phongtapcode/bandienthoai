@@ -1,7 +1,7 @@
 import React from 'react';
 import { Spin } from 'antd';
 
-function Loading ({children,isLoading,delay = 200}) {
+function Loading ({children,isLoading}) {
 
     return (
     <Spin spinning={isLoading}>

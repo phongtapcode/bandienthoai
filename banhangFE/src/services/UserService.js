@@ -13,7 +13,7 @@ export const signUpUser = async (data) => {
 }
 
 export const getDetailsUser = async (id,access_token) => {
-  const res = await axios.get(`${import.meta.env.VITE_SOME_KEY_URL}/user/get-details/${id}`,{
+  const res = await axiosJWT.get(`${import.meta.env.VITE_SOME_KEY_URL}/user/get-details/${id}`,{
     headers: { 
       token: `Bearer ${access_token}`
     }
@@ -26,5 +26,15 @@ export const refreshToken = async () => {
     withCredentials: true 
     // khi có cookie sẽ tự động lấy ra
   });
+    return res.data;
+}
+
+export const logoutUser = async () => {
+  const res = await axios.post(`${import.meta.env.VITE_SOME_KEY_URL}/user/log-out`);
+    return res.data;
+}
+
+export const updateUser = async (id,data) => {
+  const res = await axios.put(`${import.meta.env.VITE_SOME_KEY_URL}/user/update-user/${id}`,data);
     return res.data;
 }

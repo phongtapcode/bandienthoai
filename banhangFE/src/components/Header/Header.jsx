@@ -2,8 +2,14 @@ import "./Header.scss";
 import { Input } from "antd";
 import ItemCategory from "./components/ItemCategory/ItemCategory";
 import { useState } from "react";
-import {Badge} from "antd";
+import { Badge } from "antd";
 import { useSelector } from "react-redux";
+import { Popover } from "antd";
+import { useDispatch } from "react-redux";
+import { resetUser } from "../../redux/action";
+import Loading from "../Loading/Loading"
+import { useNavigate } from "react-router-dom";
+import * as UserService from "../../services/UserService"
 
 const { Search } = Input;
 
@@ -110,16 +116,32 @@ const categoryTech = [
 ];
 
 function Header() {
-  const [currentMenu,setCurrentMenu] = useState(0);
+  const [currentMenu, setCurrentMenu] = useState(0);
   const dataUser = useSelector((state) => state.dataUser);
-  const [hiddenCategory,setHiddenCategory] = useState(false);
+  const [hiddenCategory, setHiddenCategory] = useState(true);
+  const [loadingLogout,setLoadingLogout] = useState(false);
   const onSearch = (value, _e, info) => console.log(info?.source, value);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleClickTitleCategory = ()=>{
+  const handleClickTitleCategory = () => {
     setHiddenCategory(!hiddenCategory);
-  }
+  };
 
-  console.log(dataUser);
+  const handleLogout = async () => {
+    setLoadingLogout(true);
+    localStorage.removeItem('access_token');
+    await UserService.logoutUser();
+    dispatch(resetUser());
+    setLoadingLogout(false);
+  } 
+
+  const content = (
+    <div>
+      <p onClick={()=>{navigate("/profile")}}>Thông tin</p>
+      <p style={{ cursor: "pointer" }} onClick={handleLogout}>Đăng xuất</p>
+    </div>
+  );
 
   return (
     <header className="header">
@@ -153,12 +175,24 @@ function Header() {
 
         <div className="header__inner__right">
           <div className="header__inner__right--login">
-            {dataUser.name ? (<a>{dataUser.name}</a>) : (<a href="/sign-in">ĐĂNG NHẬP/ĐĂNG KÍ</a>)}
+          <Loading isLoading={loadingLogout}>
+            <Popover content={content} trigger="click">
+              {dataUser.name ? (
+                <a style={{ cursor: "pointer" }}>{dataUser.name}</a>
+              ) : (
+                <a href="/sign-in">ĐĂNG NHẬP/ĐĂNG KÍ</a>
+              )}
+            </Popover>
+            </Loading>
           </div>
+
           <div className="header__inner__right--cart">
             <a href="#">
               <span>
-                GIỎ HÀNG<Badge count={1} offset={[5,-6]}><i className="fa-solid fa-cart-shopping"></i></Badge>
+                GIỎ HÀNG
+                <Badge count={1} offset={[5, -6]}>
+                  <i className="fa-solid fa-cart-shopping"></i>
+                </Badge>
               </span>
             </a>
           </div>
@@ -167,16 +201,28 @@ function Header() {
 
       <div className="header__bottom">
         <div className="header__bottom__category">
-          <h1 className="header__bottom__category--title" onClick={handleClickTitleCategory}>DANH MỤC SẢN PHẨM</h1>
-          {hiddenCategory || categoryTech.map((category, index) => (
-            <ItemCategory data={category} key={index} />
-          ))}
+          <h1
+            className="header__bottom__category--title"
+            onClick={handleClickTitleCategory}
+          >
+            DANH MỤC SẢN PHẨM
+          </h1>
+          {hiddenCategory ||
+            categoryTech.map((category, index) => (
+              <ItemCategory data={category} key={index} />
+            ))}
         </div>
         <div className="header__bottom__menu">
-          {menu.map((item,index)=>{
-            return(
-              <a key={index} href={item.href} style={index===currentMenu?{color:"#f57e20"}:{}}>{item.title}</a>
-            )
+          {menu.map((item, index) => {
+            return (
+              <a
+                key={index}
+                href={item.href}
+                style={index === currentMenu ? { color: "#f57e20" } : {}}
+              >
+                {item.title}
+              </a>
+            );
           })}
         </div>
       </div>
