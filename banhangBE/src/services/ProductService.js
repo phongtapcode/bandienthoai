@@ -6,7 +6,6 @@ const createProduct = (newProduct) => {
     const {
       name,
       image,
-      memoryPrice,
       type,
       countInStock,
       rating,
@@ -16,6 +15,7 @@ const createProduct = (newProduct) => {
       cpu,
       screen,
       ram,
+      memory
     } = newProduct;
 
     try {
@@ -33,7 +33,6 @@ const createProduct = (newProduct) => {
       const createdProduct = await Product.create({
         name,
         image,
-        memoryPrice,
         type,
         countInStock,
         rating,
@@ -42,7 +41,8 @@ const createProduct = (newProduct) => {
         selled,
         cpu,
         screen,
-        ram
+        ram,
+        memory
       });
       if (createdProduct) {
         resolve({

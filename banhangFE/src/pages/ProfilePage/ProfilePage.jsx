@@ -5,7 +5,10 @@ import { useSelector } from "react-redux";
 import Loading from "../../components/Loading/Loading";
 import * as UserService from "../../services/UserService";
 import * as message from "../../components/Message/Message";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Upload, Image } from "antd";
 import { setUserInfor } from "../../redux/action";
+import { getBase64 } from "../../utils";
 import { useDispatch } from "react-redux";
 
 const dataInput = [
@@ -44,8 +47,8 @@ function ProfilePage() {
   });
 
   useEffect(() => {
-    if(dataUser?.id){
-      handleGetDetailUser(dataUser.id,dataUser.access_token)
+    if (dataUser?.id) {
+      handleGetDetailUser(dataUser.id, dataUser.access_token);
     }
     setUser({
       avatar: dataUser.avatar || "",
@@ -55,7 +58,6 @@ function ProfilePage() {
       address: dataUser.address || "",
     });
   }, [dataUser]);
-
 
   const handleChangeInput = (name, value) => {
     setUser({
@@ -68,8 +70,11 @@ function ProfilePage() {
     setIsLoading(true);
     e.preventDefault();
     const res = await UserService.updateUser(dataUser.id, user);
-    handleGetDetailUser(dataUser.id,dataUser.access_token)
-    res?.status === "OK" ? message.success("Cập nhật thành công") : message.success("Cập nhật thất bại");
+    console.log(res);
+    handleGetDetailUser(dataUser.id, dataUser.access_token);
+    res?.status === "OK"
+      ? message.success("Cập nhật thành công")
+      : message.success("Cập nhật thất bại");
     setIsLoading(false);
   };
 
@@ -78,8 +83,21 @@ function ProfilePage() {
     dispatch(setUserInfor({ ...res?.data, access_token: access_token }));
   };
 
+  const handleOnChangeAvatar = async ({ fileList }) => {
+    const file = fileList[fileList.length - 1];
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setUser({ ...user, ["avatar"]: file.preview });
+  };
+
   return (
     <form className="profile">
+      {user.avatar && <Image src={user.avatar}/>}
+      <Upload onChange={handleOnChangeAvatar}>
+        <Button icon={<UploadOutlined />}>Upload</Button>
+      </Upload>
+
       {dataInput.map((item, index) => (
         <InputUpdate
           key={index}
@@ -90,8 +108,9 @@ function ProfilePage() {
           value={user[item.name]}
         />
       ))}
+
       <Loading isLoading={isLoading}>
-        <button onClick={handleUpdateUser}>Cập nhật</button>
+        <button className="button__update" onClick={handleUpdateUser}>Cập nhật</button>
       </Loading>
     </form>
   );

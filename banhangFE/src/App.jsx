@@ -7,7 +7,6 @@ import * as UserService from "./services/UserService"
 import { setUserInfor } from "./redux/action";
 import { useDispatch } from "react-redux";
 import { isJsonString } from "./utils";
-import axios from "axios";
 
 function App() {
   const dispatch = useDispatch();

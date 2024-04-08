@@ -22,6 +22,7 @@ const Reducer = createReducer(initialValue,(builder)=>{
             state.dataUser.email = action.payload.email;
             state.dataUser.address = action.payload.address;
             state.dataUser.phone = action.payload.phone;
+            state.dataUser.avatar = action.payload.avatar;
             state.dataUser.access_token = action.payload.access_token;
         })
         .addCase(resetUser,(state)=>{

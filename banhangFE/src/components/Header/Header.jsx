@@ -7,9 +7,11 @@ import { useSelector } from "react-redux";
 import { Popover } from "antd";
 import { useDispatch } from "react-redux";
 import { resetUser } from "../../redux/action";
-import Loading from "../Loading/Loading"
+import Loading from "../Loading/Loading";
 import { useNavigate } from "react-router-dom";
-import * as UserService from "../../services/UserService"
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar } from "antd";
+import * as UserService from "../../services/UserService";
 
 const { Search } = Input;
 
@@ -53,73 +55,73 @@ const categoryTech = [
     iconChevron: true,
     iconMain: "fa-solid fa-mobile-screen-button",
   },
-  {
-    title: "Laptop",
-    children: [
-      { name: "Macbook", href: "#" },
-      { name: "Laptop Dell", href: "#" },
-      { name: "Laptop HP", href: "#" },
-      { name: "Laptop Asus", href: "#" },
-    ],
-    iconChevron: true,
-    iconMain: "fa-solid fa-laptop",
-  },
-  {
-    title: "Tablet",
-    children: [
-      { name: "Talet Ipad", href: "#" },
-      { name: "Tablet Beneve", href: "#" },
-      { name: "Tablet Itel", href: "#" },
-      { name: "Tablet Kindle", href: "#" },
-      { name: "Tablet Samsung", href: "#" },
-    ],
-    iconChevron: true,
-    iconMain: "fa-solid fa-tablet",
-  },
-  {
-    title: "Phụ kiện",
-    children: [
-      { name: "Bao da ốp lưng", href: "#" },
-      { name: "Loa", href: "#" },
-      { name: "Sạc", href: "#" },
-      { name: "Tai nghe", href: "#" },
-      { name: "Cường lực", href: "#" },
-    ],
-    iconChevron: true,
-    iconMain: "fa-solid fa-headphones",
-  },
-  {
-    title: "Smart Watch",
-    iconChevron: false,
-    iconMain: "fa-regular fa-clock",
-  },
-  {
-    title: "Apple Watch",
-    iconChevron: false,
-    iconMain: "fa-solid fa-mobile-button",
-  },
-  {
-    title: "Thiết bị văn phòng, máy in",
-    iconChevron: false,
-    iconMain: "fa-solid fa-print",
-  },
-  {
-    title: "Máy tính bộ màn hình",
-    iconChevron: false,
-    iconMain: "fa-solid fa-laptop-code",
-  },
-  {
-    title: "Tai nghe",
-    iconChevron: false,
-    iconMain: "fa-solid fa-cart-shopping",
-  },
+  // {
+  //   title: "Laptop",
+  //   children: [
+  //     { name: "Macbook", href: "#" },
+  //     { name: "Laptop Dell", href: "#" },
+  //     { name: "Laptop HP", href: "#" },
+  //     { name: "Laptop Asus", href: "#" },
+  //   ],
+  //   iconChevron: true,
+  //   iconMain: "fa-solid fa-laptop",
+  // },
+  // {
+  //   title: "Tablet",
+  //   children: [
+  //     { name: "Talet Ipad", href: "#" },
+  //     { name: "Tablet Beneve", href: "#" },
+  //     { name: "Tablet Itel", href: "#" },
+  //     { name: "Tablet Kindle", href: "#" },
+  //     { name: "Tablet Samsung", href: "#" },
+  //   ],
+  //   iconChevron: true,
+  //   iconMain: "fa-solid fa-tablet",
+  // },
+  // {
+  //   title: "Phụ kiện",
+  //   children: [
+  //     { name: "Bao da ốp lưng", href: "#" },
+  //     { name: "Loa", href: "#" },
+  //     { name: "Sạc", href: "#" },
+  //     { name: "Tai nghe", href: "#" },
+  //     { name: "Cường lực", href: "#" },
+  //   ],
+  //   iconChevron: true,
+  //   iconMain: "fa-solid fa-headphones",
+  // },
+  // {
+  //   title: "Smart Watch",
+  //   iconChevron: false,
+  //   iconMain: "fa-regular fa-clock",
+  // },
+  // {
+  //   title: "Apple Watch",
+  //   iconChevron: false,
+  //   iconMain: "fa-solid fa-mobile-button",
+  // },
+  // {
+  //   title: "Thiết bị văn phòng, máy in",
+  //   iconChevron: false,
+  //   iconMain: "fa-solid fa-print",
+  // },
+  // {
+  //   title: "Máy tính bộ màn hình",
+  //   iconChevron: false,
+  //   iconMain: "fa-solid fa-laptop-code",
+  // },
+  // {
+  //   title: "Tai nghe",
+  //   iconChevron: false,
+  //   iconMain: "fa-solid fa-cart-shopping",
+  // },
 ];
 
 function Header() {
   const [currentMenu, setCurrentMenu] = useState(0);
   const dataUser = useSelector((state) => state.dataUser);
   const [hiddenCategory, setHiddenCategory] = useState(true);
-  const [loadingLogout,setLoadingLogout] = useState(false);
+  const [loadingLogout, setLoadingLogout] = useState(false);
   const onSearch = (value, _e, info) => console.log(info?.source, value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -130,16 +132,24 @@ function Header() {
 
   const handleLogout = async () => {
     setLoadingLogout(true);
-    localStorage.removeItem('access_token');
+    localStorage.removeItem("access_token");
     await UserService.logoutUser();
     dispatch(resetUser());
     setLoadingLogout(false);
-  } 
+  };
 
   const content = (
     <div>
-      <p onClick={()=>{navigate("/profile")}}>Thông tin</p>
-      <p style={{ cursor: "pointer" }} onClick={handleLogout}>Đăng xuất</p>
+      <p
+        onClick={() => {
+          navigate("/profile");
+        }}
+      >
+        Thông tin
+      </p>
+      <p style={{ cursor: "pointer" }} onClick={handleLogout}>
+        Đăng xuất
+      </p>
     </div>
   );
 
@@ -175,14 +185,30 @@ function Header() {
 
         <div className="header__inner__right">
           <div className="header__inner__right--login">
-          <Loading isLoading={loadingLogout}>
-            <Popover content={content} trigger="click">
-              {dataUser.name ? (
-                <a style={{ cursor: "pointer" }}>{dataUser.name}</a>
-              ) : (
-                <a href="/sign-in">ĐĂNG NHẬP/ĐĂNG KÍ</a>
-              )}
-            </Popover>
+            <Loading isLoading={loadingLogout}>
+              <Popover content={content} trigger="click">
+                {dataUser.name ? (
+                  <>
+                    {dataUser.avatar ? (
+                      <div className="user-info">
+                        <img
+                          src={dataUser.avatar}
+                          alt="Avatar"
+                          className="avatar"
+                        />
+                        <a style={{ cursor: "pointer" }}>{dataUser.name}</a>
+                      </div>
+                    ) : (
+                      <div className="user-info">
+                        <Avatar size="large" icon={<UserOutlined />} />
+                        <a style={{ cursor: "pointer" }}>{dataUser.name}</a>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <a href="/sign-in">ĐĂNG NHẬP/ĐĂNG KÍ</a>
+                )}
+              </Popover>
             </Loading>
           </div>
 

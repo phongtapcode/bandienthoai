@@ -4,9 +4,9 @@ const JwtService = require("../services/JwtService");
 const createProduct = async (req, res) => {
   try {
     console.log(req.body);
-     const {name,image,memoryPrice,type, countInStock,rating,description,discount,selled,cpu,screen,ram} = req.body;
+     const {name,image,type, countInStock,rating,description,discount,selled,cpu,screen,ram,memory} = req.body;
 
-    if(!name || !image || !memoryPrice || !type || !countInStock || !rating || !discount || !selled || !cpu || !screen || !ram){
+    if(!name || !image || !memory || !type || !countInStock || !rating || !discount || !selled || !cpu || !screen || !ram){
         return res.status(200).json({
             status: "ERR",
             message: "The input is required"
@@ -14,7 +14,7 @@ const createProduct = async (req, res) => {
     }
 
     const response = await ProductService.createProduct(req.body);
-    return res.status(200).json({ status: "ACCESS", message: "TRUE" });
+    return res.status(200).json(response);
   } catch (e) {
     return res.status(404).json({ message: e });
   }

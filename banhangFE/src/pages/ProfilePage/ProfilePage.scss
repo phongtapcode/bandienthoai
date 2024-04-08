@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: column;
 
-    button {
+    .button__update {
         border: none;
         outline: none;
         cursor: pointer;
@@ -27,4 +27,28 @@
 
 .ant-spin-nested-loading{
     text-align: center;
+}
+
+.ant-upload-list{
+    display: none;
+}
+
+.ant-image{
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    overflow: hidden;
+    img{
+        width: 100%;
+        max-height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+}
+
+.ant-upload-wrapper{
+    width: auto;
+    margin: 0 auto;
 }

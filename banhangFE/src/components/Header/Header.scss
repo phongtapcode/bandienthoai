@@ -156,3 +156,19 @@
         }
     }
 }
+
+.ant-spin-container{
+    .user-info{
+        img{
+            width: 37px;
+            border-radius: 50%;
+            margin-right: 10px;
+            &:hover{
+                border: 1px solid #f57e20;
+            }
+        }
+        a{
+            font-size: 14px;
+        }
+    }
+}
