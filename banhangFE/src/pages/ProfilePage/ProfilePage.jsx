@@ -64,7 +64,7 @@ function ProfilePage() {
       ...user,
       [name]: value,
     });
-  };
+  };3
 
   const handleUpdateUser = async (e) => {
     setIsLoading(true);
@@ -93,7 +93,9 @@ function ProfilePage() {
 
   return (
     <form className="profile">
+      <div className="imgprofile">
       {user.avatar && <Image src={user.avatar}/>}
+      </div>
       <Upload onChange={handleOnChangeAvatar}>
         <Button icon={<UploadOutlined />}>Upload</Button>
       </Upload>

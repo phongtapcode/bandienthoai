@@ -12,7 +12,6 @@ function HomePage() {
 
   const fetchProductAll = async () => {
     const res = await ProductService.getAllProduct();
-    console.log(res);
     return res;
   };
   //retry: Xác định số lần thử lại khi có lỗi xảy ra khi gọi API.
@@ -21,7 +20,6 @@ function HomePage() {
     queryFn: fetchProductAll, // Sử dụng queryFn để truyền hàm lấy dữ liệu
     config: { retry: 3, retryDelay: 1000 }
   });
-  
   
   console.log(data);
 

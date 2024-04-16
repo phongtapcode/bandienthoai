@@ -9,7 +9,8 @@ const initialValue = {
         phone: "",
         access_token: "",
         address: "",
-        avatar: ""
+        avatar: "",
+        isAdmin: false
     },
 
 }
@@ -24,11 +25,17 @@ const Reducer = createReducer(initialValue,(builder)=>{
             state.dataUser.phone = action.payload.phone;
             state.dataUser.avatar = action.payload.avatar;
             state.dataUser.access_token = action.payload.access_token;
+            state.dataUser.isAdmin = action.payload.isAdmin;
         })
         .addCase(resetUser,(state)=>{
+            state.dataUser.id = "";
             state.dataUser.name = "";
             state.dataUser.email = "";
             state.dataUser.access_token = "";
+            state.dataUser.address = "";
+            state.dataUser.phone = "";
+            state.dataUser.avatar = "";
+            state.dataUser.isAdmin = false;
         })
 })
 

@@ -1,14 +1,17 @@
 
 .cardproduct{
     width: 264px;
-    height: 400px;
+    height: 350px;
     position: relative;
     background-color: white;
-    border-radius: 7px;
+    border-radius: 10px;
     margin-left: 20px;
+    transition: all 0.3s ease;
     &:hover{
-        border: 1px solid #919191;
-        height: 430px;
+        box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
+        border-radius: 20px;
+        transform: translateY(-10px);
+        height: 390px;
         .cardproduct__buttonbuy{
             display: block;
         }
@@ -50,7 +53,7 @@
             font-size: 17px;
             font-weight: 650;
             &:hover{
-                color: aqua;
+                color: rgba(0, 0, 0, 0.808);
             }
         }
 

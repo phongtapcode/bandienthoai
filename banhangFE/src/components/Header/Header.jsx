@@ -117,7 +117,7 @@ const categoryTech = [
   // },
 ];
 
-function Header() {
+function Header({ isHiddenItemHeader = false }) {
   const [currentMenu, setCurrentMenu] = useState(0);
   const dataUser = useSelector((state) => state.dataUser);
   const [hiddenCategory, setHiddenCategory] = useState(true);
@@ -150,38 +150,50 @@ function Header() {
       <p style={{ cursor: "pointer" }} onClick={handleLogout}>
         Đăng xuất
       </p>
+      {dataUser?.isAdmin && (
+        <p
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/system/admin")}
+        >
+          Quản lí hệ thống
+        </p>
+      )}
     </div>
   );
 
   return (
     <header className="header">
-      <div className="header__top">
-        <ul className="header__top__check">
-          <li>
-            <a href="#">Tìm kiếm</a>
-          </li>
-          <li>
-            <a href="#">Kiểm tra đơn hàng</a>
-          </li>
-          <li>
-            <a href="#">Liên hệ</a>
-          </li>
-        </ul>
-      </div>
+      {!isHiddenItemHeader && (
+        <div className="header__top">
+          <ul className="header__top__check">
+            <li>
+              <a href="#">Tìm kiếm</a>
+            </li>
+            <li>
+              <a href="#">Kiểm tra đơn hàng</a>
+            </li>
+            <li>
+              <a href="#">Liên hệ</a>
+            </li>
+          </ul>
+        </div>
+      )}
 
       <div className="header__inner">
         <div className="header__inner--logo">
           <img src="/src/assets/image/logo.jpg" />
         </div>
-        <div className="header__inner--search">
-          <Search
-            placeholder="input search text"
-            allowClear
-            enterButton="Search"
-            size="large"
-            onSearch={onSearch}
-          />
-        </div>
+        {!isHiddenItemHeader && (
+          <div className="header__inner--search">
+            <Search
+              placeholder="input search text"
+              allowClear
+              enterButton="Search"
+              size="large"
+              onSearch={onSearch}
+            />
+          </div>
+        )}
 
         <div className="header__inner__right">
           <div className="header__inner__right--login">
@@ -212,46 +224,50 @@ function Header() {
             </Loading>
           </div>
 
-          <div className="header__inner__right--cart">
-            <a href="#">
-              <span>
-                GIỎ HÀNG
-                <Badge count={1} offset={[5, -6]}>
-                  <i className="fa-solid fa-cart-shopping"></i>
-                </Badge>
-              </span>
-            </a>
-          </div>
+          {!isHiddenItemHeader && (
+            <div className="header__inner__right--cart">
+              <a href="#">
+                <span>
+                  GIỎ HÀNG
+                  <Badge count={1} offset={[5, -6]}>
+                    <i className="fa-solid fa-cart-shopping"></i>
+                  </Badge>
+                </span>
+              </a>
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="header__bottom">
-        <div className="header__bottom__category">
-          <h1
-            className="header__bottom__category--title"
-            onClick={handleClickTitleCategory}
-          >
-            DANH MỤC SẢN PHẨM
-          </h1>
-          {hiddenCategory ||
-            categoryTech.map((category, index) => (
-              <ItemCategory data={category} key={index} />
-            ))}
+      {!isHiddenItemHeader && (
+        <div className="header__bottom">
+          <div className="header__bottom__category">
+            <h1
+              className="header__bottom__category--title"
+              onClick={handleClickTitleCategory}
+            >
+              DANH MỤC SẢN PHẨM
+            </h1>
+            {hiddenCategory ||
+              categoryTech.map((category, index) => (
+                <ItemCategory data={category} key={index} />
+              ))}
+          </div>
+          <div className="header__bottom__menu">
+            {menu.map((item, index) => {
+              return (
+                <a
+                  key={index}
+                  href={item.href}
+                  style={index === currentMenu ? { color: "#f57e20" } : {}}
+                >
+                  {item.title}
+                </a>
+              );
+            })}
+          </div>
         </div>
-        <div className="header__bottom__menu">
-          {menu.map((item, index) => {
-            return (
-              <a
-                key={index}
-                href={item.href}
-                style={index === currentMenu ? { color: "#f57e20" } : {}}
-              >
-                {item.title}
-              </a>
-            );
-          })}
-        </div>
-      </div>
+      )}
     </header>
   );
 }

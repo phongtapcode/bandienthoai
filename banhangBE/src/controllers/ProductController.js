@@ -3,10 +3,9 @@ const JwtService = require("../services/JwtService");
 
 const createProduct = async (req, res) => {
   try {
-    console.log(req.body);
-     const {name,image,type, countInStock,rating,description,discount,selled,cpu,screen,ram,memory} = req.body;
+     const {name,image,type, countinstock,rating,description,discount,selled,cpu,screen,ram,memory} = req.body;
 
-    if(!name || !image || !memory || !type || !countInStock || !rating || !discount || !selled || !cpu || !screen || !ram){
+    if(!name || !image || !memory || !type || !countinstock  || !discount || !selled || !cpu || !screen || !ram){
         return res.status(200).json({
             status: "ERR",
             message: "The input is required"
@@ -17,6 +16,7 @@ const createProduct = async (req, res) => {
     return res.status(200).json(response);
   } catch (e) {
     return res.status(404).json({ message: e });
+    
   }
 };
 
@@ -78,7 +78,8 @@ const deleteProduct = async (req,res)=>{
 const getAllProduct = async (req,res)=>{
   try{
      const {limit,page,sort,filter} = req.query;
-      const response = await ProductService.getAllProduct(Number(limit) || 8,Number(page) || 0 ,sort,filter);
+    //   const response = await ProductService.getAllProduct(Number(limit) || 8,Number(page) || 0 ,sort,filter);
+      const response = await ProductService.getAllProduct();
       return res.status(200).json(response);
   }catch(e){
       return res.status(404).json({message:e})

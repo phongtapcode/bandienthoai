@@ -6,46 +6,61 @@ import SignIn from "../pages/SignIn/SignIn";
 import ProductDetail from "../pages/ProductDetail/ProductDetail";
 import SignUp from "../pages/SignUp/SignUp";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
+import AdminPage from "../pages/AdminPage/AdminPage";
 
 export const routes = [
     {
         path: "/",
         page: HomePage,
-        isShowHeader: true
+        isShowHeader: true,
+        isPrivate: false
     },
     {
         path: "/order",
         page: OrderPage,
-        isShowHeader: true
+        isShowHeader: true,
+        isPrivate: false
     },
     {
         path: "/profile",
         page: ProfilePage,
-        isShowHeader: true
+        isShowHeader: true,
+        isPrivate: false
     },
     {
         path: "/products",
         page: ProductPage,
-        isShowHeader: true
+        isShowHeader: true,
+        isPrivate: false
     },
     {
         path: "/sign-in",
         page: SignIn,
-        isShowHeader: false
+        isShowHeader: false,
+        isPrivate: false
     },
     {
         path: "/sign-up",
         page: SignUp,
-        isShowHeader: false
+        isShowHeader: false,
+        isPrivate: false
     },
     {
         path: "/detail",
         page: ProductDetail,
-        isShowHeader: true
+        isShowHeader: true,
+        isPrivate: false
+    },
+    {
+        path: "/system/admin",
+        page: AdminPage,
+        isShowHeader: false,
+        isPrivate: true
     },
     {
         path: "*",
         page: NotFoundPage,
-        isShowHeader: false
+        isShowHeader: false,
+        isPrivate: false
     },
 ]

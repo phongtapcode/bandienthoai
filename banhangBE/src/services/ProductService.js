@@ -7,8 +7,8 @@ const createProduct = (newProduct) => {
       name,
       image,
       type,
-      countInStock,
-      rating,
+      price,
+      countinstock,
       description,
       discount,
       selled,
@@ -29,13 +29,13 @@ const createProduct = (newProduct) => {
           message: "Tên sản phẩm đã tồn tại",
         });
       }
-
+      
       const createdProduct = await Product.create({
         name,
         image,
         type,
-        countInStock,
-        rating,
+        countinstock,
+        price,
         description,
         discount,
         selled,
@@ -44,9 +44,10 @@ const createProduct = (newProduct) => {
         ram,
         memory
       });
+      
       if (createdProduct) {
         resolve({
-          status: "Success",
+          status: "OK",
           message: "Success",
           data: createdProduct,
         });
@@ -72,7 +73,7 @@ const updateProduct = (id,data) => {
       const updatedProduct = await Product.findByIdAndUpdate(id,data,{new: true});
 
       return resolve({
-        status: "Success",
+        status: "OK",
         message: "Success",
         data: updatedProduct
       })
@@ -88,7 +89,7 @@ const getDetailProduct = (id) => {
       const checkProduct = await Product.findOne({_id:id});
 
       return resolve({
-        status: "Success",
+        status: "OK",
         message: "All Product",
         data: checkProduct
       })
@@ -113,7 +114,7 @@ const deleteProduct = (id) => {
       const deletedProduct = await Product.findByIdAndDelete(id);
 
       return resolve({
-        status: "Success",
+        status: "OK",
         message: "Delete success"
       })
     } catch (e) {
@@ -131,7 +132,7 @@ const getAllProduct = (limit,page,sort,filter) => {
         
         const allProductFilter = await Product.find({[filter[0]]: { '$regex': filter[1]}});
         return resolve({
-          status: "Success",
+          status: "OK",
           message: "Success",
           data: allProductFilter,
           total: totalProduct,
@@ -145,7 +146,7 @@ const getAllProduct = (limit,page,sort,filter) => {
         objectSort[sort[1]] = sort[0];
         const allProductSort = await Product.find().limit(limit).skip(page*limit).sort(objectSort);
         return resolve({
-          status: "Success",
+          status: "OK",
           message: "Success",
           data: allProductSort,
           total: totalProduct,
@@ -156,7 +157,7 @@ const getAllProduct = (limit,page,sort,filter) => {
 
       const allProduct = await Product.find().limit(limit).skip(page*limit);
       return resolve({
-        status: "Success",
+        status: "OK",
         message: "All Product",
         data: allProduct,
         total: totalProduct,
