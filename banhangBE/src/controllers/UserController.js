@@ -66,12 +66,23 @@ const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
     const data = req.body;
+    var regex = /^(?:\+?84|0)(?:\d){9,10}$/;
+    const isCheckPhone = regex.test(data.phone);
+
+    if(!isCheckPhone){
+      return res.status(200).json({
+        status: "ERR",
+        message: "Số điện thoại không chính xác",
+      });
+    }
+
     if (!userId) {
       return res.status(200).json({
         status: "ERR",
         message: "The userId is required",
       });
     }
+
     const response = await UserService.updateUser(userId, data);
     return res.status(200).json(response);
   } catch (e) {

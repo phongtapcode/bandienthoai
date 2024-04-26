@@ -1,17 +1,14 @@
 import "./Header.scss";
-import { Input } from "antd";
+import { Input,Badge, Avatar,Popover } from "antd";
 import ItemCategory from "./components/ItemCategory/ItemCategory";
-import { useState } from "react";
-import { Badge } from "antd";
-import { useSelector } from "react-redux";
-import { Popover } from "antd";
-import { useDispatch } from "react-redux";
-import { resetUser } from "../../redux/action";
-import Loading from "../Loading/Loading";
+import { useState,useEffect } from "react";
+import { useSelector,useDispatch } from "react-redux";
+import { resetUser,valueSearch } from "../../redux/action";
 import { useNavigate } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar } from "antd";
+import Loading from "../Loading/Loading";
 import * as UserService from "../../services/UserService";
+import categoryPhone from "../../assets/category";
 
 const { Search } = Input;
 
@@ -26,7 +23,7 @@ const menu = [
   },
   {
     title: "SẢN PHẨM",
-    href: "#",
+    href: "/products",
   },
   {
     title: "KINH NGHIỆM HAY",
@@ -45,13 +42,7 @@ const menu = [
 const categoryTech = [
   {
     title: "Điện thoại",
-    children: [
-      { name: "Apple", href: "#" },
-      { name: "Samsung", href: "#" },
-      { name: "Xiaomi", href: "#" },
-      { name: "Nokia", href: "#" },
-      { name: "Apple", href: "#" },
-    ],
+    children: categoryPhone.map((category)=>({name: category,href: "/products"})),
     iconChevron: true,
     iconMain: "fa-solid fa-mobile-screen-button",
   },
@@ -122,9 +113,12 @@ function Header({ isHiddenItemHeader = false }) {
   const dataUser = useSelector((state) => state.dataUser);
   const [hiddenCategory, setHiddenCategory] = useState(true);
   const [loadingLogout, setLoadingLogout] = useState(false);
-  const onSearch = (value, _e, info) => console.log(info?.source, value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const onSearch = (value) => {
+    dispatch(valueSearch(value));
+  }
 
   const handleClickTitleCategory = () => {
     setHiddenCategory(!hiddenCategory);
@@ -136,6 +130,7 @@ function Header({ isHiddenItemHeader = false }) {
     await UserService.logoutUser();
     dispatch(resetUser());
     setLoadingLogout(false);
+    navigate("/sign-in")
   };
 
   const content = (
@@ -160,6 +155,10 @@ function Header({ isHiddenItemHeader = false }) {
       )}
     </div>
   );
+
+  const onChangeSearch = (e) => {
+    dispatch(valueSearch(e.target.value));
+  }
 
   return (
     <header className="header">
@@ -190,6 +189,7 @@ function Header({ isHiddenItemHeader = false }) {
               allowClear
               enterButton="Search"
               size="large"
+              onChange={onChangeSearch}
               onSearch={onSearch}
             />
           </div>

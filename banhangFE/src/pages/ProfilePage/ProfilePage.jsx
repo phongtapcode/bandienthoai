@@ -58,7 +58,7 @@ function ProfilePage() {
       address: dataUser.address || "",
     });
   }, [dataUser]);
-
+ 
   const handleChangeInput = (name, value) => {
     setUser({
       ...user,
@@ -69,8 +69,7 @@ function ProfilePage() {
   const handleUpdateUser = async (e) => {
     setIsLoading(true);
     e.preventDefault();
-    const res = await UserService.updateUser(dataUser.id, user);
-    console.log(res);
+    const res = await UserService.updateUser(dataUser.id,dataUser.access_token ,user);
     handleGetDetailUser(dataUser.id, dataUser.access_token);
     res?.status === "OK"
       ? message.success("Cập nhật thành công")

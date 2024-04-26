@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { setUserInfor,resetUser } from "./action";
+import { setUserInfor,resetUser, valueSearch } from "./action";
 
 const initialValue = {
     dataUser: {
@@ -12,7 +12,7 @@ const initialValue = {
         avatar: "",
         isAdmin: false
     },
-
+    valueSearch: "",
 }
 
 const Reducer = createReducer(initialValue,(builder)=>{
@@ -36,6 +36,9 @@ const Reducer = createReducer(initialValue,(builder)=>{
             state.dataUser.phone = "";
             state.dataUser.avatar = "";
             state.dataUser.isAdmin = false;
+        })
+        .addCase(valueSearch,(state,action)=>{
+            state.valueSearch = action.payload;
         })
 })
 

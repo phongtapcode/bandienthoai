@@ -46,7 +46,7 @@ export const routes = [
         isPrivate: false
     },
     {
-        path: "/detail",
+        path: "/detail/:id",
         page: ProductDetail,
         isShowHeader: true,
         isPrivate: false

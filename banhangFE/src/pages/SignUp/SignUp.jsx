@@ -35,7 +35,7 @@ function SignUp() {
   const { data, isPending } = mutation;
 
   useEffect(() => {
-    if (data?.status === "Success") {
+    if (data?.status === "OK") {
       message.success("Đăng kí thành công");
       navigate("/sign-in");
     }

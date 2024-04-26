@@ -26,7 +26,7 @@ const items = [
 ];
 
 function AdminPage() {
-    const [keySelected,setKeySelected] = useState(<AdminUser/>);
+    const [keySelected,setKeySelected] = useState(<AdminProduct/>);
 
     const handleClickSidebar = ({key}) => {
         setKeySelected(renderPage(key));

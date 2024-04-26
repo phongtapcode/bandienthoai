@@ -1,63 +1,77 @@
 import { useEffect, useState } from "react";
+import { Tooltip } from "antd";
 import "./Card.scss";
 
-const data = {
-  name: "iPhone 15 Pro Max",
-  rating: "5",
-  description:  "Sản phẩm tốt",
-  selled: 500,
-  memory: 256,
-  discount: 5,
-  price: "5.700.000",
-  cpu: "Apple A17 Pro",
-  screen: "6.7inch",
-  ram: "8GB",
-};
-
-function stringToNumber(str){
-    var num = parseInt(str.replace(/\./g, ""));
-    return num;
+function stringToNumber(str) {
+  var num = parseInt(str);
+  return num;
 }
 
-function numberToString(num){
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+function numberToString(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-function Card() {
+function Card({ dataProduct }) {
 
   return (
     <div className="cardproduct">
       <div className="cardproduct__img">
         <span>
-          <img src="/src/assets/image/imageiphone/iphone1.webp" />
+          <img src={dataProduct.image} />
         </span>
         <div className="cardproduct__label">
-          <span className="badge bg-danger">{`Giảm ${data.discount}%`}</span>
+          <span className="badge bg-danger">{`Giảm ${dataProduct.discount}%`}</span>
         </div>
       </div>
 
       <div className="cardproduct__infor">
-        <h1>{data.name}</h1>
-        
+        <h1>{dataProduct.name}</h1>
+
         <div className="cardproduct__infor__price">
-            <div className="cardproduct__infor__price--newprice">
-                {`${data.price}₫`}
-            </div>
-            <div className="cardproduct__infor__price--oldprice">
-                {`${numberToString(stringToNumber(data.price)*(data.discount+100)/100)}₫`}
-            </div>
+          <div className="cardproduct__infor__price--newprice">
+            {`${numberToString(
+              Math.ceil(
+                (stringToNumber(dataProduct.price) *
+                  (100 - dataProduct.discount)) /
+                  100
+              )
+            )}₫`}
+          </div>
+          <div className="cardproduct__infor__price--oldprice">
+            {`${numberToString(stringToNumber(dataProduct.price))}₫`}
+          </div>
         </div>
 
         <div className="cardproduct__infor__config">
-          <span><i className="fa-solid fa-sd-card"></i>{data.cpu}</span>
-          <span><i className="fa-solid fa-mobile-screen"></i>{data.screen}</span>
-          <span><i className="fa-solid fa-microchip"></i>{data.ram}</span>
-          <span><i className="fa-solid fa-memory"></i>{data.memory}</span>
+          <Tooltip placement="top" title={"cpu"}>
+            <span>
+              <i className="fa-solid fa-sd-card"></i>
+              {dataProduct.cpu}
+            </span>
+          </Tooltip>
+          <Tooltip placement="top" title={"screen"}>
+            <span>
+              <i className="fa-solid fa-mobile-screen"></i>
+              {dataProduct.screen + " inch"}
+            </span>
+          </Tooltip>
+          <Tooltip placement="top" title={"ram"}>
+            <span>
+              <i className="fa-solid fa-microchip"></i>
+              {dataProduct.ram+" GB"}
+            </span>
+          </Tooltip>
+          <Tooltip placement="top" title={"memory"}>
+            <span>
+              <i className="fa-solid fa-memory"></i>
+              {dataProduct.memory + " GB"}
+            </span>
+          </Tooltip>
         </div>
       </div>
 
       <button className="cardproduct__buttonbuy">
-        <a href="/detail">MUA NGAY</a>
+        <a href={`/detail/${dataProduct._id}`}>MUA NGAY</a>
       </button>
     </div>
   );

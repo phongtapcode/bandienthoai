@@ -170,10 +170,38 @@ const getAllProduct = (limit,page,sort,filter) => {
   });
 };
 
+const getAllProductFilter = (valueFilter) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const minPrice = parseInt(valueFilter.price[0]);
+const maxPrice = parseInt(valueFilter.price[1]);
+
+// Xây dựng điều kiện lọc dựa trên filter và khoảng giá
+const condition = {
+  $and: [
+    { type: { $in: valueFilter.type } },
+    { memory: { $in: valueFilter.memory } }
+  ]
+};
+
+// Lọc ra các sản phẩm thỏa mãn điều kiện
+      const allProduct = await Product.find(condition);
+      return resolve({
+        status: "OK",
+        message: "All Product Filter",
+        data: allProduct,
+      })
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   createProduct,
   updateProduct,
   getDetailProduct,
   deleteProduct,
-  getAllProduct
+  getAllProduct,
+  getAllProductFilter
 };
