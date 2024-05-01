@@ -110,6 +110,7 @@ const categoryTech = [
 
 function Header({ isHiddenItemHeader = false }) {
   const [currentMenu, setCurrentMenu] = useState(0);
+  const orderProducts = useSelector((state) => state.orderProduct);
   const dataUser = useSelector((state) => state.dataUser);
   const [hiddenCategory, setHiddenCategory] = useState(true);
   const [loadingLogout, setLoadingLogout] = useState(false);
@@ -130,7 +131,7 @@ function Header({ isHiddenItemHeader = false }) {
     await UserService.logoutUser();
     dispatch(resetUser());
     setLoadingLogout(false);
-    navigate("/sign-in")
+    // navigate("/sign-in")
   };
 
   const content = (
@@ -226,10 +227,10 @@ function Header({ isHiddenItemHeader = false }) {
 
           {!isHiddenItemHeader && (
             <div className="header__inner__right--cart">
-              <a href="#">
+              <a href="/order">
                 <span>
                   GIỎ HÀNG
-                  <Badge count={1} offset={[5, -6]}>
+                  <Badge count={orderProducts?.orderItems?.length} offset={[5, -6]}>
                     <i className="fa-solid fa-cart-shopping"></i>
                   </Badge>
                 </span>

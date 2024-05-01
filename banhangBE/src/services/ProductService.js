@@ -15,7 +15,7 @@ const createProduct = (newProduct) => {
       cpu,
       screen,
       ram,
-      memory
+      memory,
     } = newProduct;
 
     try {
@@ -29,7 +29,7 @@ const createProduct = (newProduct) => {
           message: "Tên sản phẩm đã tồn tại",
         });
       }
-      
+
       const createdProduct = await Product.create({
         name,
         image,
@@ -42,9 +42,9 @@ const createProduct = (newProduct) => {
         cpu,
         screen,
         ram,
-        memory
+        memory,
       });
-      
+
       if (createdProduct) {
         resolve({
           status: "OK",
@@ -58,10 +58,10 @@ const createProduct = (newProduct) => {
   });
 };
 
-const updateProduct = (id,data) => {
+const updateProduct = (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const checkProduct = await Product.findOne({_id:id});
+      const checkProduct = await Product.findOne({ _id: id });
 
       if (checkProduct === null) {
         resolve({
@@ -70,13 +70,15 @@ const updateProduct = (id,data) => {
         });
       }
 
-      const updatedProduct = await Product.findByIdAndUpdate(id,data,{new: true});
+      const updatedProduct = await Product.findByIdAndUpdate(id, data, {
+        new: true,
+      });
 
       return resolve({
         status: "OK",
         message: "Success",
-        data: updatedProduct
-      })
+        data: updatedProduct,
+      });
     } catch (e) {
       reject(e);
     }
@@ -86,13 +88,13 @@ const updateProduct = (id,data) => {
 const getDetailProduct = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const checkProduct = await Product.findOne({_id:id});
+      const checkProduct = await Product.findOne({ _id: id });
 
       return resolve({
         status: "OK",
         message: "All Product",
-        data: checkProduct
-      })
+        data: checkProduct,
+      });
     } catch (e) {
       reject(e);
     }
@@ -102,7 +104,7 @@ const getDetailProduct = (id) => {
 const deleteProduct = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const checkProduct = await Product.findOne({_id:id});
+      const checkProduct = await Product.findOne({ _id: id });
 
       if (checkProduct === null) {
         resolve({
@@ -115,55 +117,61 @@ const deleteProduct = (id) => {
 
       return resolve({
         status: "OK",
-        message: "Delete success"
-      })
+        message: "Delete success",
+      });
     } catch (e) {
       reject(e);
     }
   });
 };
 
-const getAllProduct = (limit,page,sort,filter) => {
+const getAllProduct = (limit, page, sort, filter) => {
   return new Promise(async (resolve, reject) => {
     try {
       const totalProduct = await Product.countDocuments();
-      
-      if(filter){
-        
-        const allProductFilter = await Product.find({[filter[0]]: { '$regex': filter[1]}});
+
+      if (filter) {
+        const allProductFilter = await Product.find({
+          [filter[0]]: { $regex: filter[1] },
+        });
         return resolve({
           status: "OK",
           message: "Success",
           data: allProductFilter,
           total: totalProduct,
-          pageCurrent: page+1,
-          totalPage: Math.ceil(totalProduct/limit)
-        })
+          pageCurrent: page + 1,
+          totalPage: Math.ceil(totalProduct / limit),
+        });
       }
 
-      if(sort){
+      if (sort) {
         const objectSort = {};
         objectSort[sort[1]] = sort[0];
-        const allProductSort = await Product.find().limit(limit).skip(page*limit).sort(objectSort);
+        const allProductSort = await Product.find()
+          .limit(limit)
+          .skip(page * limit)
+          .sort(objectSort);
         return resolve({
           status: "OK",
           message: "Success",
           data: allProductSort,
           total: totalProduct,
-          pageCurrent: page+1,
-          totalPage: Math.ceil(totalProduct/limit)
-        })
+          pageCurrent: page + 1,
+          totalPage: Math.ceil(totalProduct / limit),
+        });
       }
 
-      const allProduct = await Product.find().limit(limit).skip(page*limit);
+      const allProduct = await Product.find()
+        .limit(limit)
+        .skip(page * limit);
       return resolve({
         status: "OK",
         message: "All Product",
         data: allProduct,
         total: totalProduct,
-        pageCurrent: page+1,
-        totalPage: Math.ceil(totalProduct/limit)
-      })
+        pageCurrent: page + 1,
+        totalPage: Math.ceil(totalProduct / limit),
+      });
     } catch (e) {
       reject(e);
     }
@@ -173,24 +181,25 @@ const getAllProduct = (limit,page,sort,filter) => {
 const getAllProductFilter = (valueFilter) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const minPrice = parseInt(valueFilter.price[0]);
-const maxPrice = parseInt(valueFilter.price[1]);
+      const minPrice = parseInt(valueFilter.price[0]) * 1000000;
+      const maxPrice = parseInt(valueFilter.price[1]) * 1000000;
 
-// Xây dựng điều kiện lọc dựa trên filter và khoảng giá
-const condition = {
-  $and: [
-    { type: { $in: valueFilter.type } },
-    { memory: { $in: valueFilter.memory } }
-  ]
-};
+      const condition = {
+        $and: [
+          { type: { $in: valueFilter.type } },
+          { memory: { $in: valueFilter.memory } },
+          { $expr: { $gte: [{ $toInt: "$price" }, minPrice] } },
+          { $expr: { $lte: [{ $toInt: "$price" }, maxPrice] } },
+        ],
+      };
 
-// Lọc ra các sản phẩm thỏa mãn điều kiện
+      // Lọc ra các sản phẩm thỏa mãn điều kiện
       const allProduct = await Product.find(condition);
       return resolve({
         status: "OK",
         message: "All Product Filter",
         data: allProduct,
-      })
+      });
     } catch (e) {
       reject(e);
     }
@@ -203,5 +212,5 @@ module.exports = {
   getDetailProduct,
   deleteProduct,
   getAllProduct,
-  getAllProductFilter
+  getAllProductFilter,
 };

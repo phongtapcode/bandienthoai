@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import "./ProductDetail.scss";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams,useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import * as ProductService from "../../services/ProductService";
 import Loading from "../../components/Loading/Loading";
 import { useSelector } from "react-redux";
+import { addOrderProduct } from "../../redux/action";
+import { useDispatch } from "react-redux";
 
 function stringToNumber(str) {
   var num = parseInt(str);
   return num;
-}
+} 
 
 function numberToString(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -21,9 +23,12 @@ function ProductDetail() {
   const [dataProduct,setDataProduct] = useState({});
   const user = useSelector((state) => state.dataUser);
   const params = useParams();
+  const dispatch = useDispatch();
   const handleNoneParam = ()=>{
     setIsParam(!isParam);
   }
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const fetchProductDetail = async (context) => {
     const  id = context?.queryKey && context?.queryKey[1];
@@ -40,7 +45,25 @@ function ProductDetail() {
   useEffect(()=>{
     setDataProduct(data);
   },[data])
-  console.log(dataProduct)
+
+  const handleAddOrderProduct = () => {
+    if(!user?.id){
+      navigate("/sign-in",{state: location?.pathname});
+    }else{
+      dispatch(addOrderProduct({
+        orderItem: {
+          name: dataProduct?.name,
+          amount: countProduct,
+          image: dataProduct?.image,
+          price: dataProduct?.price,
+          discount: dataProduct?.discount,
+          product: dataProduct?._id
+        }
+
+      }))
+    }
+  }
+
   return (
     <Loading isLoading={isLoading}>
     <main className="productdetail">
@@ -53,7 +76,7 @@ function ProductDetail() {
         <h1 className="productdetail__infor--title">{dataProduct?.name}</h1>
 
         <div className="productdetail__evaluate">
-        <span className="productdetail__evaluate--rating"><i class="fa-solid fa-star"></i>5.0</span>
+        <span className="productdetail__evaluate--rating"><i className="fa-solid fa-star"></i>5.0</span>
         <span className="productdetail__evaluate--selled">{`Đã bán ${dataProduct?.selled} +`}</span>
       </div>
 
@@ -103,7 +126,7 @@ function ProductDetail() {
               +
             </button>
           </div>
-          <div className="productdetail__infor__countproduct--buttonaddcart">
+          <div className="productdetail__infor__countproduct--buttonaddcart" onClick={handleAddOrderProduct}>
           <i className="fa-solid fa-cart-plus"></i>THÊM VÀO GIỎ HÀNG
           </div>
           <div className="productdetail__infor__countproduct--buttonbuy">

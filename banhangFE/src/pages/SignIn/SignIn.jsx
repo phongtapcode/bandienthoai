@@ -3,7 +3,7 @@ import "./SignIn.scss";
 import { jwtDecode } from "jwt-decode";
 import { Button, Checkbox, Form, Input } from "antd";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
 import * as UserService from "../../services/UserService";
 import * as message from "../../components/Message/Message";
@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -29,9 +30,13 @@ function SignIn() {
 
   useEffect(() => {
     if (data?.status === "OK") {
+      if(location?.state) {
+        navigate(location?.state);
+      }else{
+        navigate("/");
+      }
       localStorage.setItem("access_token", JSON.stringify(data?.access_token));
       message.success("Đăng nhập thành công");
-      navigate("/");
       if (data?.access_token) {
         const decoded = jwtDecode(data?.access_token);
 

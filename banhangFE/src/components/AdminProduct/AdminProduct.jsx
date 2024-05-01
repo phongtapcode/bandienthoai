@@ -146,7 +146,7 @@ function AdminProduct() {
     if (mutationUpdate.data?.status === "OK") {
       message.success("Sửa sản phẩm thành công");
       setIsModalOpen(false);
-    }else if(mutationUpdate.data?.status === "ERR"){
+    } else if (mutationUpdate.data?.status === "ERR") {
       message.error(mutationUpdate.data?.message);
     }
   }, [mutationUpdate.isSuccess]);
@@ -253,7 +253,7 @@ function AdminProduct() {
     if (mutationAdd.data?.status === "OK") {
       message.success("Tạo sản phẩm thành công");
       setIsModalOpen(false);
-    }else if(mutationAdd.data?.status === "ERR"){
+    } else if (mutationAdd.data?.status === "ERR") {
       message.error(mutationAdd.data?.message);
     }
   }, [mutationAdd.isSuccess]);
@@ -294,7 +294,7 @@ function AdminProduct() {
   });
 
   const { data } = queryProduct;
-
+console.log(data);
   const dataTable = data?.data.map((product) => {
     return { ...product, key: product._id };
   });
@@ -404,9 +404,10 @@ function AdminProduct() {
                 value={productInfor.type}
                 onChange={handleChangeType}
                 className="selecttype"
-                options = {
-                  categoryPhone.map((category)=>({value: category,label: category}))
-                }
+                options={categoryPhone.map((category) => ({
+                  value: category,
+                  label: category,
+                }))}
               />
             </div>
             <div className="modal__item">

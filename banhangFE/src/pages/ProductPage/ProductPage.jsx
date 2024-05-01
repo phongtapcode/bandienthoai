@@ -29,7 +29,7 @@ function ProductPage() {
   const [valueSearch, setValueSearch] = useState({
     type: [],
     memory: [],
-    price: [],
+    price: [1,100],
   });
 
   const handleOnChangePrice = (value) => {
@@ -57,14 +57,26 @@ function ProductPage() {
   };
 
    const handleFilterProduct = async () => {
+    setLoadingProducts(true);
     console.log(valueSearch)
-    const res = await ProductService.getAllProductFilter(valueSearch);
+    let valueFilterSearch = { ...valueSearch }; 
+
+    if (valueSearch.type.length === 0) {
+      valueFilterSearch = { ...valueFilterSearch, type: categoryPhone };
+    }
+    
+    if (valueSearch.memory.length === 0) {
+      valueFilterSearch = { ...valueFilterSearch, memory: categoryMemory };
+    }
+    
+    const res = await ProductService.getAllProductFilter(valueFilterSearch);
     setProducts(res?.data);
     console.log(res);
+    setLoadingProducts(false);
    }
 
   return (
-    <Loading isLoading={isLoading}>
+    <Loading isLoading={isLoading || loadingProducts}>
       <main className="productall">
         <div className="productall__header">
           <Breadcrumb
