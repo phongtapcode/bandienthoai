@@ -1,17 +1,12 @@
 import "./PaymentPage.scss";
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as message from "../../components/Message/Message";
 import { useMutation } from "@tanstack/react-query";
 import * as OrderService from "../../services/OrderService";
 import Loading from "../../components/Loading/Loading";
-import {
-  increaseAmount,
-  decreaseAmount,
-  removeOrderProduct,
-  removeListOrderProduct,
-} from "../../redux/action";
+import StepComponent from "../../components/StepComponent/StepComponent";
 
 const plainOptions = [
   "Thanh toán khi nhận hàng",
@@ -83,6 +78,7 @@ function PaymentPage() {
         total + stringToNumber(currentValue.price) * currentValue.amount,
       0
     );
+    
     const voucherPrice = listSelectedOrderProducts.reduce(
       (total, currentValue) =>
         total +
@@ -92,13 +88,16 @@ function PaymentPage() {
           currentValue.amount,
       0
     );
+
     const shipPrice = oldPrice - voucherPrice > 500000 ? 0 : 50000;
+
     setPrices({
       oldPrice,
       voucherPrice: voucherPrice,
       shipPrice,
       newPrice: oldPrice - voucherPrice + (oldPrice === 0 ? 0 : shipPrice),
     });
+
     setListSelectedOrderProducts(orderProducts.orderItemsSelected);
   }, [listSelectedOrderProducts]);
 
@@ -145,12 +144,14 @@ function PaymentPage() {
   });
 
   const { data,isPending: isLoadingAddOrder, isSuccess, isError } = mutationAddOrder;
-  
+
+  console.log(mutationAddOrder);
   useEffect(()=>{
     if(data?.status === "OK"){
       message.success("Đặt hàng thành công");
+      navigate("/ordersuccess");
     }else if(data?.status === "ERR"){
-      message.error("Đặt hàng thất bại. Vui lòng điền đủ thông tin");
+      message.error("Sản phẩm không tồn tại hoặc hết sản phẩm");
     }
   },[isSuccess,isError])
 
@@ -159,6 +160,7 @@ function PaymentPage() {
   };
   return (
     <Loading isLoading={isLoadingAddOrder}>
+          <StepComponent stepCurrent={user?.id ? 1 : 0}/>
       <main className="orderproduct">
         <div className="orderproduct__main">
           <div className="orderproduct__main__inforship">

@@ -8,6 +8,8 @@ import SignUp from "../pages/SignUp/SignUp";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import AdminPage from "../pages/AdminPage/AdminPage";
 import PaymentPage from "../pages/Payment/PaymentPage";
+import OrderSuccess from "../pages/OrderSuccess/OrderSuccess";
+import MyOrder from "../pages/MyOrder/MyOrder";
 
 export const routes = [
     {
@@ -19,6 +21,18 @@ export const routes = [
     {
         path: "/order",
         page: OrderPage,
+        isShowHeader: true,
+        isPrivate: false
+    },
+    {
+        path: "/my-order",
+        page: MyOrder,
+        isShowHeader: true,
+        isPrivate: false
+    },
+    {
+        path: "/ordersuccess",
+        page: OrderSuccess,
         isShowHeader: true,
         isPrivate: false
     },

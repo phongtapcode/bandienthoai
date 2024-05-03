@@ -294,7 +294,7 @@ function AdminProduct() {
   });
 
   const { data } = queryProduct;
-console.log(data);
+
   const dataTable = data?.data.map((product) => {
     return { ...product, key: product._id };
   });

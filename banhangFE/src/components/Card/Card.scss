@@ -20,10 +20,13 @@
     &__img{
         position: relative;
         width: 100%;
+        border-radius: 10px;
+        height: 210px;
         text-align: center;
         overflow: hidden;
         img{
             transition: transform 0.3s ease;
+            max-width: 100%;
             &:hover{
                 transform: scale(1.05);
             }

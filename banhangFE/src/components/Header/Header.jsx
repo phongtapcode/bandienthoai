@@ -143,8 +143,12 @@ function Header({ isHiddenItemHeader = false }) {
       >
         Thông tin
       </p>
-      <p style={{ cursor: "pointer" }} onClick={handleLogout}>
-        Đăng xuất
+      <p
+        onClick={() => {
+          navigate("/my-order");
+        }}
+      >
+        Đơn hàng của tôi
       </p>
       {dataUser?.isAdmin && (
         <p
@@ -154,6 +158,9 @@ function Header({ isHiddenItemHeader = false }) {
           Quản lí hệ thống
         </p>
       )}
+      <p style={{ cursor: "pointer" }} onClick={handleLogout}>
+        Đăng xuất
+      </p>
     </div>
   );
 

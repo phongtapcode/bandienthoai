@@ -11,6 +11,7 @@ import {
   removeListOrderProduct,
   selectedOrder
 } from "../../redux/action";
+import StepComponent from "../../components/StepComponent/StepComponent";
 
 function stringToNumber(str) {
   var num = parseInt(str.replace(/\./g, ""), 10);
@@ -230,6 +231,7 @@ function OrderPage() {
 
   return (
     <main className="orderproduct">
+      <StepComponent stepCurrent={user?.id ? 1 : 0}/>
       <div className="orderproduct__listproduct">
         <Table
           rowSelection={{
