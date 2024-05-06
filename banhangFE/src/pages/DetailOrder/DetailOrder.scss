@@ -1,0 +1,90 @@
+.orderdetail{
+    width: 90%;
+    margin: 0 auto;
+
+    &__inforship{
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+
+        &__address{
+            width: 30%;
+            .title{
+                font-size: 1.5rem;
+            }
+
+            &--infor{
+                background-color: white;
+                display: flex;
+                flex-direction: column;
+                height: 100px;  
+                border-radius: 10px;
+                
+                span{
+                    font-size: 1.2rem;
+                    margin-top: 5px;
+                    margin-left: 20px;
+                    font-weight: 500;
+                }
+            }
+        }
+
+        &__ship{
+            width: 30%;
+
+            .title{
+                font-size: 1.5rem;
+            }
+
+            &--infor{
+                background-color: white;
+                display: flex;
+                flex-direction: column;
+                height: 100px;  
+                border-radius: 10px;
+
+                span{
+                    font-size: 1.2rem;
+                    margin-top: 5px;
+                    margin-left: 20px;
+                    font-weight: 500;
+                }
+            }
+        }
+
+        &__payment{
+            width: 30%;
+
+            .title{
+                font-size: 1.5rem;
+            }
+
+            &--infor{
+                background-color: white;
+                display: flex;
+                flex-direction: column;
+                height: 100px;  
+                border-radius: 10px;
+                
+                span{
+                    font-size: 1.2rem;
+                    margin-top: 5px;
+                    margin-left: 20px;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+
+    &__totalprice{
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        height: 50px;
+
+        span{
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+    }
+}

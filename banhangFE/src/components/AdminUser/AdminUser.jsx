@@ -225,7 +225,7 @@ function AdminUser() {
   };
 
   const fetchUserAll = async () => {
-    const res = await UserService.getAllUser();
+    const res = await UserService.getAllUser(user?.access_token);
     return res;
   };
 
@@ -237,11 +237,10 @@ function AdminUser() {
   });
 
   const { data } = queryUser;
-  console.log(data);
+
   const dataTable = data?.data.map((user) => {
     return { ...user, key: user._id,isAdmin: user.isAdmin ? "TRUE": "FALSE" };
   });
-
 
   const handleOnChangeAvatar = async ({ fileList }) => {
     const file = fileList[fileList.length - 1];

@@ -24,6 +24,7 @@ function AdminProduct() {
   const [rowSelected, setRowSelected] = useState("");
   const [action, setAction] = useState("Thêm");
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
+  const [isLoadingAllProduct,setIsLoadingAllProduct] = useState(false);
   const [productInfor, setProductInfor] = useState({
     name: "",
     type: "",
@@ -282,7 +283,9 @@ function AdminProduct() {
   };
 
   const fetchProductAll = async () => {
+    setIsLoadingAllProduct(true);
     const res = await ProductService.getAllProduct();
+    setIsLoadingAllProduct(false);
     return res;
   };
 
@@ -372,6 +375,7 @@ function AdminProduct() {
   };
 
   return (
+    <Loading isLoading={isLoadingAllProduct}>
     <div className="adminproduct">
       <h1>Danh sách sản phẩm</h1>
       <>
@@ -539,6 +543,7 @@ function AdminProduct() {
         />
       </div>
     </div>
+    </Loading>
   );
 }
 

@@ -58,7 +58,7 @@ function ProductPage() {
 
    const handleFilterProduct = async () => {
     setLoadingProducts(true);
-    console.log(valueSearch)
+
     let valueFilterSearch = { ...valueSearch }; 
 
     if (valueSearch.type.length === 0) {

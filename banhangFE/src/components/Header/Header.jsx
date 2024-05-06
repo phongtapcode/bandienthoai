@@ -111,6 +111,7 @@ const categoryTech = [
 function Header({ isHiddenItemHeader = false }) {
   const [currentMenu, setCurrentMenu] = useState(0);
   const orderProducts = useSelector((state) => state.orderProduct);
+  const valueInput = useSelector((state) => state.valueSearch);
   const dataUser = useSelector((state) => state.dataUser);
   const [hiddenCategory, setHiddenCategory] = useState(true);
   const [loadingLogout, setLoadingLogout] = useState(false);
@@ -196,6 +197,7 @@ function Header({ isHiddenItemHeader = false }) {
               placeholder="input search text"
               allowClear
               enterButton="Search"
+              value={valueInput}
               size="large"
               onChange={onChangeSearch}
               onSearch={onSearch}

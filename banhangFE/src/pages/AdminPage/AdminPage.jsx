@@ -1,7 +1,7 @@
 import "./AdminPage.scss";
 import { useState } from "react";
 import {
-  ContainerOutlined,
+  ShoppingCartOutlined,
   DesktopOutlined,
   PieChartOutlined,
 } from "@ant-design/icons";
@@ -9,6 +9,7 @@ import { Menu } from "antd";
 import Header from "../../components/Header/Header";
 import AdminProduct from "../../components/AdminProduct/AdminProduct";
 import AdminUser from "../../components/AdminUser/AdminUser";
+import AdminOrder from "../../components/AdminOrder/AdminOrder";
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -22,7 +23,8 @@ function getItem(label, key, icon, children, type) {
 
 const items = [
   getItem("User", "user", <PieChartOutlined />),
-  getItem("Product", "product", <DesktopOutlined />)
+  getItem("Product", "product", <DesktopOutlined />),
+  getItem("Cart", "cart", <ShoppingCartOutlined />),
 ];
 
 function AdminPage() {
@@ -42,7 +44,11 @@ function AdminPage() {
                 return(
                     <AdminProduct/>
                 )
-            default: return(<AdminUser/>)
+            case 'cart':
+              return(
+                  <AdminOrder/>
+              )
+            default: return(<h1>Admin</h1>)
         }
     }
 
