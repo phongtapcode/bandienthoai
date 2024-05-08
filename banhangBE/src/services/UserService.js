@@ -1,6 +1,10 @@
 const User = require("../models/UserModel");
 const bcrypt = require("bcrypt");
-const JwtService = require("./JwtService")
+const { v4: uuidv4 } = require('uuid');
+const JwtService = require("./JwtService");
+const EmailService = require("../services/EmailService");
+const redis = require('redis');
+const client = redis.createClient();
 
 const createUser = (newUser) => {
   return new Promise(async (resolve, reject) => {
@@ -165,11 +169,67 @@ const getDetailsUser = (id) => {
   });
 };
 
+const forgetPassword = (email) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const checkUser = await User.findOne({
+        email: email,
+      });
+      if (checkUser === null) {
+        resolve({
+          status: "ERR",
+          message: "Email không tồn tại",
+        });
+      }
+
+      const token = uuidv4();
+      
+      await EmailService.sendEmailChangePassword(email,token);
+
+      return resolve({
+        status: "OK",
+        message: "Vui lòng vào email để đổi mật khẩu"
+      })
+
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const resetPassword = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const {token,email,password} = data;
+
+      if(!token || !email || !password){
+          resolve({
+          status: "ERR",
+          message: "Vui lòng thực hiện đúng bước"
+        })
+      }
+
+      const hashPassword = bcrypt.hashSync(password, 10);
+      const updatedPassword = await User.findOneAndUpdate({email: email},{password: hashPassword})
+
+      return resolve({
+        status: "OK",
+        message: "Mật khẩu đã được đổi thành công",
+      })
+
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   createUser,
   loginUser,
   updateUser,
   deleteUser,
   getAllUser,
-  getDetailsUser
+  getDetailsUser,
+  forgetPassword,
+  resetPassword
 };

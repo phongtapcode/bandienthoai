@@ -28,7 +28,7 @@ const items = [
 ];
 
 function AdminPage() {
-    const [keySelected,setKeySelected] = useState(<AdminProduct/>);
+    const [keySelected,setKeySelected] = useState(<h1>Trang Admin quản lí</h1>);
 
     const handleClickSidebar = ({key}) => {
         setKeySelected(renderPage(key));

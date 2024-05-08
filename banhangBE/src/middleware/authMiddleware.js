@@ -34,7 +34,7 @@ const  authUserMiddleware = (req,res,next)=>{
                 message: "Lỗi Token"
             })
         }
-        console.log(user?.id,userId)
+
         if(user?.isAdmin || user?.id === userId){
             next();
         }else{

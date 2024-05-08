@@ -16,6 +16,11 @@ function numberToString(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
+const formatDateTime = (dateTimeString) => {
+  const date = new Date(dateTimeString);
+  return date.toLocaleString(); // Sử dụng toLocaleString() để chuyển đổi thành chuỗi ngày giờ đọc hiểu được bởi người dùng
+};
+
 function DetailOrder() {
   const params = useParams();
   const user = useSelector((state) => state?.dataUser);
@@ -34,7 +39,6 @@ function DetailOrder() {
     queryFn: fetchOrderDetail,
     config: { retry: 3, retryDelay: 1000 },
   });
-
   const { isLoading, data } = queryOrderDetail;
 
   useEffect(() => {
@@ -106,6 +110,7 @@ function DetailOrder() {
             <div className="orderdetail__inforship__ship--infor">
               <span>{detailOrder?.paymentMethod}</span>
               <span style={detailOrder?.isDelivered === "Chưa giao hàng" || detailOrder?.isDelivered === "Đang giao" ? {color: "red"} : {color: "green"}}>{detailOrder?.isDelivered}</span>
+              <span>{`Thời gian đặt đơn: ${formatDateTime(data?.data.createdAt)}`}</span>
             </div>
           </div>
         </div>

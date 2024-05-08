@@ -61,7 +61,12 @@ export const logoutUser = async () => {
     return res.data;
 }
 
-// export const updateUser = async (id,data) => {
-//   const res = await axios.put(`${import.meta.env.VITE_SOME_KEY_URL}/user/update-user/${id}`,data);
-//     return res.data;
-// }
+export const forgetPassword = async (email) => {
+  const res = await axios.post(`${import.meta.env.VITE_SOME_KEY_URL}/user/forget-password`,{email});
+    return res.data;
+}
+
+export const resetPassword = async (data) => {
+  const res = await axios.post(`${import.meta.env.VITE_SOME_KEY_URL}/user/reset-password`,data);
+    return res.data;
+}

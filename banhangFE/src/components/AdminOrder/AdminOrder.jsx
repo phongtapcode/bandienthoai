@@ -19,6 +19,11 @@ function numberToString(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
+const formatDateTime = (dateTimeString) => {
+  const date = new Date(dateTimeString);
+  return date.toLocaleString(); // Sử dụng toLocaleString() để chuyển đổi thành chuỗi ngày giờ đọc hiểu được bởi người dùng
+};
+
 function AdminOrder() {
   const user = useSelector((state) => state?.dataUser);
   const [rowSelected, setRowSelected] = useState({});
@@ -195,6 +200,7 @@ function AdminOrder() {
       orderItems: order?.orderItems,
       paymentMethod: order?.paymentMethod,
       address: order.shippingAddress.address,
+      createdAt: order?.createdAt
     };
   });
 
@@ -217,7 +223,7 @@ function AdminOrder() {
     },
   });
   const {isPending: isLoadingUpdateDeliverd} = mutationUpdate;
-
+ 
   const handleUpdateDelivery = (value) => {
     mutationUpdate.mutate(
       {
@@ -235,7 +241,7 @@ function AdminOrder() {
     );
     setIsModalOpenDetail(false);
   };
-
+console.log(rowSelected)
   return (
     <Loading isLoading={isLoadingUpdateDeliverd || isLoadingOrder}>
     <div className="adminproduct">
@@ -264,6 +270,7 @@ function AdminOrder() {
               ))}
             </div>
             <div className="order__payment">
+            <span>{`Thời gian đặt đơn: ${formatDateTime(rowSelected?.createdAt)}`}</span>
               <span>{`Hình thức khi thanh toán: ${rowSelected?.paymentMethod}`}</span>
               <div>Trạng thái giao:
                 <Select

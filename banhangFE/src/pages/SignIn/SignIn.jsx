@@ -145,7 +145,7 @@ function SignIn() {
         >
           Remember me
         </Checkbox>
-        <span className="forgetpassword">Quên mật khẩu</span>
+        <a className="forgetpassword" href="/forget-password">Quên mật khẩu</a>
       </Form.Item>
 
       <Loading isLoading={isPending}>

@@ -123,7 +123,7 @@ function PaymentPage() {
     } else {
       mutationAddOrder.mutate({
         token: user?.access_token,
-        orderItems: listOrderProducts,
+        orderItems: listSelectedOrderProducts,
         fullName: user?.name,
         phone: user?.phone,
         address: user?.address,
@@ -132,6 +132,7 @@ function PaymentPage() {
         shippingPrice: prices?.shipPrice,
         totalPrice: prices?.newPrice,
         user: user?.id,
+        email: user?.email
       });
     }
   };
@@ -145,7 +146,6 @@ function PaymentPage() {
 
   const { data,isPending: isLoadingAddOrder, isSuccess, isError } = mutationAddOrder;
 
-  console.log(mutationAddOrder);
   useEffect(()=>{
     if(data?.status === "OK"){
       message.success("Đặt hàng thành công");

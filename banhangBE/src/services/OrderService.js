@@ -1,5 +1,6 @@
 const OrderProduct = require("../models/OrderProduct");
 const Product = require("../models/ProductModel");
+const EmailService = require("../services/EmailService");
 const JwtService = require("./JwtService");
 
 const createOrderProduct = (newOrder) => {
@@ -15,38 +16,41 @@ const createOrderProduct = (newOrder) => {
         shippingPrice,
         totalPrice,
         user,
+        email
       } = newOrder;
 
-      for (const order of orderItems) {
-        const product = await Product.findById(order.id);
+      // for (const order of orderItems) {
+      //   const product = await Product.findById(order.id);
 
-        if (!product || product.countinstock < order.amount) {
-          resolve({
-            status: "ERR",
-            message: "Sản phẩm hết hàng hoặc không tồn tại",
-          });
-          return; // Kết thúc vòng lặp khi gặp lỗi
-        }
+      //   if (!product || product.countinstock < order.amount) {
+      //     resolve({
+      //       status: "ERR",
+      //       message: "Sản phẩm hết hàng hoặc không tồn tại",
+      //     });
+      //     return; // Kết thúc vòng lặp khi gặp lỗi
+      //   }
 
-        product.countinstock -= order.amount;
-        product.selled += order.amount;
-        await product.save();
-      }
+      //   product.countinstock -= order.amount;
+      //   product.selled += order.amount;
+      //   await product.save();
+      // }
 
-      const createdProduct = await OrderProduct.create({
-        orderItems,
-        shippingAddress: { fullName, address, phone },
-        paymentMethod,
-        itemsPrice,
-        shippingPrice,
-        totalPrice,
-        user
-      });
-
+      // const createdProduct = await OrderProduct.create({
+      //   orderItems,
+      //   shippingAddress: { fullName, address, phone },
+      //   paymentMethod,
+      //   itemsPrice,
+      //   shippingPrice,
+      //   totalPrice,
+      //   user
+      // });
+  
+      await EmailService.sendEmailCreateOrder(email,orderItems,totalPrice);
+      
       resolve({
         status: "OK",
         message: "Order created successfully",
-        data: createdProduct
+        // data: createdProduct
       });
     } catch (error) {
       reject({

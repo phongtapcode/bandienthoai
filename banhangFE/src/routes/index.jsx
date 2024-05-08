@@ -11,6 +11,8 @@ import PaymentPage from "../pages/Payment/PaymentPage";
 import OrderSuccess from "../pages/OrderSuccess/OrderSuccess";
 import MyOrder from "../pages/MyOrder/MyOrder";
 import DetailOrder from "../pages/DetailOrder/DetailOrder";
+import ForgetPassword from "../pages/ForgetPassword/ForgetPassword";
+import ResetPassword from "../pages/ResetPassword/ResetPassword";
 
 export const routes = [
     {
@@ -64,6 +66,18 @@ export const routes = [
     {
         path: "/sign-in",
         page: SignIn,
+        isShowHeader: false,
+        isPrivate: false
+    },
+    {
+        path: "/forget-password",
+        page: ForgetPassword,
+        isShowHeader: false,
+        isPrivate: false
+    },
+    {
+        path: "/reset-password",
+        page: ResetPassword,
         isShowHeader: false,
         isPrivate: false
     },

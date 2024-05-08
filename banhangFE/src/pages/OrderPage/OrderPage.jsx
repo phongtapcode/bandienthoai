@@ -126,7 +126,7 @@ function OrderPage() {
       </div>
     );
   };
-
+  console.log(listSelectedOrderProducts)
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       setListSelectedOrderProducts(selectedRows);

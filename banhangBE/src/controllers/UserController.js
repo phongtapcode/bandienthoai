@@ -164,6 +164,34 @@ const logoutUser = async (req, res) => {
   }
 };
 
+const forgetPassword = async (req, res) => {
+  try {
+    const {email} = req.body;
+    const response = await UserService.forgetPassword(email);
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(404).json({ message: e });
+  }
+}
+
+const resetPassword = async (req, res) => {
+  try {
+    const {email,token,password} = req.body;
+
+    if (!email || !token || !password) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "Vui lòng nhập lại email",
+      });
+    }
+
+    const response = await UserService.resetPassword(req.body);
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(404).json({ message: e });
+  }
+}
+
 module.exports = {
   createUser,
   loginUser,
@@ -172,5 +200,7 @@ module.exports = {
   getAllUser,
   getDetailsUser,
   refreshToken,
-  logoutUser
+  logoutUser,
+  forgetPassword,
+  resetPassword
 };
