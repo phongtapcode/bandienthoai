@@ -132,7 +132,7 @@ function Header({ isHiddenItemHeader = false }) {
     await UserService.logoutUser();
     dispatch(resetUser());
     setLoadingLogout(false);
-    // navigate("/sign-in")
+    navigate("/sign-in")
   };
 
   const content = (
@@ -175,13 +175,13 @@ function Header({ isHiddenItemHeader = false }) {
         <div className="header__top">
           <ul className="header__top__check">
             <li>
-              <a href="#">Tìm kiếm</a>
+              <a href="/">Tìm kiếm</a>
             </li>
             <li>
-              <a href="#">Kiểm tra đơn hàng</a>
+              <a href="/my-order">Kiểm tra đơn hàng</a>
             </li>
             <li>
-              <a href="#">Liên hệ</a>
+              <a href="/">Liên hệ</a>
             </li>
           </ul>
         </div>
@@ -193,7 +193,7 @@ function Header({ isHiddenItemHeader = false }) {
         </div>
         {!isHiddenItemHeader && (
           <div className="header__inner--search">
-            <input type="text" placeholder="Search sản phẩm" onChange={onChangeSearch}/>
+            <input type="text" placeholder="Search sản phẩm" onChange={onChangeSearch} value={valueInput}/>
           </div>
         )}
 

@@ -1,5 +1,5 @@
 import "./AdminOrder.scss";
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import Product from "./components/Product/Product";
@@ -12,7 +12,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Button, Modal, Input, Space, Select } from "antd";
 import Highlighter from "react-highlight-words";
 import TableComponent from "../TableComponent/TableComponent";
-import * as message from "../Message/Message";
 import Loading from "../Loading/Loading";
 
 function numberToString(num) {
@@ -161,7 +160,9 @@ function AdminOrder() {
     {
       title: "Tình trạng giao",
       dataIndex: "shipped",
-      render: (text) => <a style={{color: 'green'}}>{text}</a>,
+      render: (text) => <a style={text === "Đã nhận được hàng" ? {color: "green"} : {color: "red"}}>{text}</a>,
+      filters: [{text: "Đã nhận được hàng",value: "Đã nhận được hàng"},{text: "Đang giao",value: "Đang giao"},{text: "Chưa giao hàng",value: "Chưa giao hàng"}],
+      onFilter: (value, record) => record.shipped.startsWith(value),
     },
     {
       title: "TotalPrice",
@@ -241,7 +242,7 @@ function AdminOrder() {
     );
     setIsModalOpenDetail(false);
   };
-console.log(rowSelected)
+
   return (
     <Loading isLoading={isLoadingUpdateDeliverd || isLoadingOrder}>
     <div className="adminproduct">
@@ -289,10 +290,9 @@ console.log(rowSelected)
         <TableComponent
           columns={columns}
           dataTable={dataTable}
-          onRow={(record, rowIndex) => {
+          onRow={(record) => {
             return {
               onClick: () => {
-                setRowSelected(record);
                 setRowSelected(record);
               },
             };

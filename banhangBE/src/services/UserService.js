@@ -3,8 +3,6 @@ const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require('uuid');
 const JwtService = require("./JwtService");
 const EmailService = require("../services/EmailService");
-const redis = require('redis');
-const client = redis.createClient();
 
 const createUser = (newUser) => {
   return new Promise(async (resolve, reject) => {

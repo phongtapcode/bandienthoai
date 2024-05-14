@@ -1,4 +1,6 @@
-import Card from "../../components/Card/Card";
+import { lazy, Suspense } from "react";
+const Card = lazy(() => import("../../components/Card/Card"));
+// import Card from "../../components/Card/Card";
 import Carousel from "../../components/Carousel/Carousel";
 import { useQuery } from "@tanstack/react-query";
 import * as ProductService from "../../services/ProductService";
@@ -61,7 +63,7 @@ function HomePage() {
               <img src="/src/assets/image/tragopimg2.jpg" />
             </div>
           </div>
-          
+
           <div className="main__content__right">
             <img src="/src/assets/image/phukiengiamgia.jpg" />
           </div>
@@ -69,11 +71,12 @@ function HomePage() {
 
         <div className="main__product">
           {products?.data?.map((product, i) => (
-            <Card key={i} dataProduct={product} />
+            <Suspense key={i} fallback={<div>Loading...</div>}>
+              <Card dataProduct={product} />
+            </Suspense>
           ))}
         </div>
       </main>
-
     </Loading>
   );
 }

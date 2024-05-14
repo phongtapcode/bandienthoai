@@ -132,11 +132,11 @@ const getAllProduct = (limit, page, sort, filter) => {
 
       if (filter) {
         const allProductFilter = await Product.find({
-          [filter[0]]: { $regex: filter[1] },
+          [filter[0]]: { $regex: filter[1], $options: "i" },
         });
         return resolve({
           status: "OK",
-          message: "Success",
+          message: "All Product",
           data: allProductFilter,
           total: totalProduct,
           pageCurrent: page + 1,

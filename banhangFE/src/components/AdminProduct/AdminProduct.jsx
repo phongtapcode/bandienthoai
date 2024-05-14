@@ -515,7 +515,7 @@ function AdminProduct() {
         <TableComponent
           columns={columns}
           dataTable={dataTable}
-          onRow={(record, rowIndex) => {
+          onRow={(record) => {
             return {
               onClick: () => {
                 setRowSelected(record._id);

@@ -2,7 +2,7 @@ const ProductService = require("../services/ProductService");
 const JwtService = require("../services/JwtService");
 
 function isNumeric(value) {
-  return Number.isFinite(Number(value)) && Number(value) > 0;
+  return Number.isFinite(Number(value)) && Number(value) >=0;
 }
 
 function isDiscount(value) {
@@ -26,7 +26,7 @@ const createProduct = async (req, res) => {
         message: "Vui lòng nhập đúng kiểu dữ liệu"
       });
     }
-
+ 
     if(!isDiscount(discount)){
       return res.status(200).json({
         status: "ERR",
@@ -122,8 +122,8 @@ const deleteProduct = async (req,res)=>{
 const getAllProduct = async (req,res)=>{
   try{
      const {limit,page,sort,filter} = req.query;
+     
       const response = await ProductService.getAllProduct(Number(limit) || 1000,Number(page) || 0 ,sort,filter);
-      // const response = await ProductService.getAllProduct();
       return res.status(200).json(response);
   }catch(e){
       return res.status(404).json({message:e})
