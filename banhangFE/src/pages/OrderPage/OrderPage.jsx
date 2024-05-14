@@ -281,7 +281,7 @@ function OrderPage() {
         </div>
         <div className="orderproduct__payment__voucher">
           <span>
-            <i className="fa-solid fa-ticket"></i> Sử dụng voucher hoặc đổi điểm
+            <i className="fa-solid fa-ticket"></i> Sử dụng voucher
           </span>
         </div>
         <div className="orderproduct__payment__preparebill">

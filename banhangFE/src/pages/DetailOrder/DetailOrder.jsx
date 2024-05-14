@@ -110,7 +110,10 @@ function DetailOrder() {
             <div className="orderdetail__inforship__ship--infor">
               <span>{detailOrder?.paymentMethod}</span>
               <span style={detailOrder?.isDelivered === "Chưa giao hàng" || detailOrder?.isDelivered === "Đang giao" ? {color: "red"} : {color: "green"}}>{detailOrder?.isDelivered}</span>
-              <span>{`Thời gian đặt đơn: ${formatDateTime(data?.data.createdAt)}`}</span>
+              <span>{`Thời gian đặt đơn: ${formatDateTime(detailOrder?.createdAt)}`}</span>
+              {detailOrder?.isDelivered === "Đã nhận được hàng" && (
+                <span>{`Thời gian nhận đơn: ${formatDateTime(detailOrder?.updatedAt)}`}</span>
+              ) }
             </div>
           </div>
         </div>

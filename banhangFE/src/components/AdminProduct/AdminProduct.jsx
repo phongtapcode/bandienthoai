@@ -218,24 +218,7 @@ function AdminProduct() {
     {
       title: "Hãng",
       dataIndex: "type",
-      filters: [
-        {
-          text: "iphone",
-          value: "iphone",
-        },
-        {
-          text: "samsung",
-          value: "samsung",
-        },
-        {
-          text: "xiaomi",
-          value: "xiaomi",
-        },
-        {
-          text: "realme",
-          value: "realme",
-        },
-      ],
+      filters: categoryPhone.map(category=>({text: category,value: category})),
       onFilter: (value, record) => record.type.startsWith(value),
     },
     {
@@ -253,7 +236,7 @@ function AdminProduct() {
   useEffect(() => {
     if (mutationAdd.data?.status === "OK") {
       message.success("Tạo sản phẩm thành công");
-      setIsModalOpen(false);
+      // setIsModalOpen(false);
     } else if (mutationAdd.data?.status === "ERR") {
       message.error(mutationAdd.data?.message);
     }

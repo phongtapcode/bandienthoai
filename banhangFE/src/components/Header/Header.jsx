@@ -189,19 +189,11 @@ function Header({ isHiddenItemHeader = false }) {
 
       <div className="header__inner">
         <div className="header__inner--logo">
-          <img src="/src/assets/image/logo.jpg" />
+          <img src="/src/assets/image/logo.jpg" onClick={()=>{navigate("/")}}/>
         </div>
         {!isHiddenItemHeader && (
           <div className="header__inner--search">
-            <Search
-              placeholder="input search text"
-              allowClear
-              enterButton="Search"
-              value={valueInput}
-              size="large"
-              onChange={onChangeSearch}
-              onSearch={onSearch}
-            />
+            <input type="text" placeholder="Search sản phẩm" onChange={onChangeSearch}/>
           </div>
         )}
 

@@ -1,17 +1,18 @@
 
 .cardproduct{
     width: 264px;
-    height: 320px;
+    height: 390px;
     position: relative;
     background-color: white;
     border-radius: 10px;
     margin-left: 20px;
-    transition: all 0.3s ease;
+    margin-top: 5px;
+    transition: all 0.5s ease;
     &:hover{
         box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
-        border-radius: 20px;
+        border-radius: 25px;
         transform: translateY(-10px);
-        height: 350px;
+        height: 420px;
         .cardproduct__buttonbuy{
             display: block;
         }
@@ -26,7 +27,8 @@
         overflow: hidden;
         img{
             transition: transform 0.3s ease;
-            max-width: 100%;
+            max-width: 70%;
+            margin-top: 10px;
             &:hover{
                 transform: scale(1.05);
             }
@@ -95,11 +97,13 @@
 
         &__config{
             width: 90%;
-            height: 40px;
             background-color: #f8f9fa;
             margin: 10px auto;
             border-radius: 8px;
-            span{
+            display: flex;
+            flex-wrap: wrap;
+            padding: 5px 0;
+            div{
                 color: #6c757d;
                 font-size: 1.2rem;
                 margin-right: 10px;
@@ -107,7 +111,7 @@
                 i{
                     font-size: 15px;
                     color: #b6bfc7;
-                    margin-right: 2px;
+                    margin-right: 5px;
                     margin-top: 3px;
                 }
             }

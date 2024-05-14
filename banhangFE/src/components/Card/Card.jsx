@@ -12,7 +12,7 @@ function numberToString(num) {
 }
 
 function Card({ dataProduct }) {
-
+ 
   return (
     <div className="cardproduct">
       <div className="cardproduct__img">
@@ -44,28 +44,28 @@ function Card({ dataProduct }) {
 
         <div className="cardproduct__infor__config">
           <Tooltip placement="top" title={"cpu"}>
-            <span>
+            <div>
               <i className="fa-solid fa-sd-card"></i>
               {dataProduct.cpu}
-            </span>
+            </div>
           </Tooltip>
           <Tooltip placement="top" title={"screen"}>
-            <span>
+            <div>
               <i className="fa-solid fa-mobile-screen"></i>
               {dataProduct.screen + " inch"}
-            </span>
+            </div>
           </Tooltip>
           <Tooltip placement="top" title={"ram"}>
-            <span>
+            <div>
               <i className="fa-solid fa-microchip"></i>
               {dataProduct.ram+" GB"}
-            </span>
+            </div>
           </Tooltip>
           <Tooltip placement="top" title={"memory"}>
-            <span>
+            <div>
               <i className="fa-solid fa-memory"></i>
               {dataProduct.memory + " GB"}
-            </span>
+            </div>
           </Tooltip>
         </div>
       </div>

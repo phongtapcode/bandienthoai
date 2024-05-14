@@ -46,20 +46,18 @@
 
         &--search{
             width: 40%;
+            display: flex;
             align-items: center;
-            .ant-input-group-wrapper{
-                margin-top: 25px;
-            }
-            .ant-input-affix-wrapper{
-                input{
-                    height: 30px;
-                }
-            }
-            .ant-input-group-addon{
-                button{
-                    height: 46px;
-                    background-color: #f57e20;
-                }
+           
+            input{
+                border: none;
+                outline: none;
+                width: 50%;
+                height: 30px;
+                font-size: 1.3rem;
+                padding-left: 15px;
+                border-bottom: 1px solid #f3812a;
+                background-color: rgba(0, 0, 0, 0);
             }
         }
 
@@ -82,14 +80,21 @@
             }
             
             &--cart{
+                height: 50px;
+                display: flex;
+                align-items: center;
+
                 a{
                     text-decoration: none;
                     font-size: 1.3rem;
                     font-weight: 700;
                     color: rgba(102,102,102,0.85);
+                    align-self: center;
+
                     i{
                         font-size: 19px;
                     }
+
                     &:hover{
                         color: black;
                     }
@@ -161,6 +166,7 @@
     .user-info{
         img{
             width: 37px;
+            height: 37px;
             border-radius: 50%;
             margin-right: 10px;
             &:hover{

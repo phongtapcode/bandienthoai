@@ -55,11 +55,13 @@ function HomePage() {
             <div className="main__content__left--carousel">
               <Carousel />
             </div>
+
             <div className="main__content__left--image">
               <img src="/src/assets/image/tragopimg1.jpg" />
               <img src="/src/assets/image/tragopimg2.jpg" />
             </div>
           </div>
+          
           <div className="main__content__right">
             <img src="/src/assets/image/phukiengiamgia.jpg" />
           </div>
@@ -71,6 +73,7 @@ function HomePage() {
           ))}
         </div>
       </main>
+
     </Loading>
   );
 }

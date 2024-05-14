@@ -13,6 +13,11 @@ function numberToString(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
+const formatDateTime = (dateTimeString) => {
+  const date = new Date(dateTimeString);
+  return date.toLocaleString(); // Sử dụng toLocaleString() để chuyển đổi thành chuỗi ngày giờ đọc hiểu được bởi người dùng
+};
+
 function MyOrder() {
   const user = useSelector((state) => state?.dataUser);
   const [idCancel, setIdCancel] = useState("");
@@ -114,6 +119,10 @@ function MyOrder() {
               <div className="myorder__item__state">
                 <h1>Trạng thái</h1>
                 <span>
+                  <span style={{ color: "red" }}>Đặt hàng lúc:  </span>
+                  {formatDateTime(item?.createdAt)}
+                </span>
+                <span>
                   <span style={{ color: "red" }}>Tình trạng giao hàng: </span>
                   {item?.isDelivered}
                 </span>
@@ -123,6 +132,15 @@ function MyOrder() {
                     ? "Chưa thanh toán"
                     : "Đã thanh toán"}
                 </span>
+
+                {
+                  item?.isDelivered === "Đã nhận được hàng" && (
+                <span>
+                  <span style={{ color: "red" }}>Nhận được hàng lúc:  </span>
+                  {formatDateTime(item?.updatedAt)}
+                </span>
+                  )
+                }
               </div>
 
               {item?.orderItems.map((order, i) => {

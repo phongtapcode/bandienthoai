@@ -1,0 +1,29 @@
+.itemcomment{
+    display: flex;
+    width: 50%;
+    align-items: center;
+    margin-top: 20px;
+    &__img{
+        width: 50px;
+        height: 50px;
+        overflow: hidden;
+        img{
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+    }
+
+    &__comment{
+        margin-left: 10px;
+        &__name{
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        &__text{
+            width: auto;
+            font-size: 15px;
+        }
+    }
+}
