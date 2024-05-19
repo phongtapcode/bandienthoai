@@ -16,7 +16,7 @@ const createOrderProduct = (newOrder) => {
         shippingPrice,
         totalPrice,
         user,
-        email
+        email,
       } = newOrder;
 
       for (const order of orderItems) {
@@ -42,21 +42,21 @@ const createOrderProduct = (newOrder) => {
         itemsPrice,
         shippingPrice,
         totalPrice,
-        user
+        user,
       });
-  
-      await EmailService.sendEmailCreateOrder(email,orderItems,totalPrice);
-      
+
+      await EmailService.sendEmailCreateOrder(email, orderItems, totalPrice);
+
       resolve({
         status: "OK",
         message: "Order created successfully",
-        data: createdProduct
+        data: createdProduct,
       });
     } catch (error) {
       reject({
         status: "ERR",
         message: "Error creating order",
-        error: error.message
+        error: error.message,
       });
     }
   });
@@ -78,13 +78,19 @@ const getAllDetailOrder = (id) => {
   });
 };
 
-const updateOrder = (id,isDelivered) => {
+const updateOrder = (id, isDelivered) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if(isDelivered === "Đã nhận được hàng"){
-        await OrderProduct.findByIdAndUpdate(id,{isDelivered: isDelivered,isPaid: true});
-      }else{
-        await OrderProduct.findByIdAndUpdate(id,{isDelivered: isDelivered,isPaid: false});
+      if (isDelivered === "Đã nhận được hàng") {
+        await OrderProduct.findByIdAndUpdate(id, {
+          isDelivered: isDelivered,
+          isPaid: true,
+        });
+      } else {
+        await OrderProduct.findByIdAndUpdate(id, {
+          isDelivered: isDelivered,
+          isPaid: false,
+        });
       }
 
       return resolve({
@@ -129,7 +135,7 @@ const getOrderDetail = (id) => {
   });
 };
 
-const cancelOrder = (id,orderItems) => {
+const cancelOrder = (id, orderItems) => {
   return new Promise(async (resolve, reject) => {
     try {
       const deletedOrder = await OrderProduct.findByIdAndDelete(id);
@@ -159,11 +165,39 @@ const cancelOrder = (id,orderItems) => {
   });
 };
 
+const getOrderFilter = (month) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      var orders = [];
+      
+      if(month !== "no"){
+        const startDate = new Date(`${month}-01T00:00:00Z`);
+        const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1);
+        endDate.setUTCHours(0, 0, 0, -1);
+         orders = await OrderProduct.find({
+          createdAt: { $gte: startDate, $lte: endDate },
+        })
+      }else{
+        orders = await OrderProduct.find();
+      }
+      
+      return resolve({
+        status: "OK",
+        message: "All Order",
+        data: orders,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   createOrderProduct,
   getAllDetailOrder,
   getOrderDetail,
   cancelOrder,
   getAllOrder,
-  updateOrder
+  updateOrder,
+  getOrderFilter,
 };

@@ -101,11 +101,23 @@ const getAllOrder = async (req,res)=>{
   }
 }
 
+const getOrderFilter = async (req,res)=>{
+    try{
+        const { month } = req.query;
+  
+        const response = await OrderService.getOrderFilter(month);
+        return res.status(200).json(response);
+    }catch(e){
+        return res.status(404).json({message:e})
+    }
+  }
+
 module.exports = {
   createOrderProduct,
   getAllDetailsOrder,
   getOrderDetail,
   cancelOrder,
   getAllOrder,
-  updateOrder
+  updateOrder,
+  getOrderFilter
 };

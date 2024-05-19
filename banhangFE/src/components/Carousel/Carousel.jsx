@@ -13,7 +13,7 @@ function Carousel(){
       return (
         <Slider {...settings}>
           <div>
-            <img src="/src/assets/image/slider1.jpg" style={{width: '100%'}}/>
+            <img src="https://mauweb.monamedia.net/thegioididong/wp-content/uploads/2017/12/banner-Samsung-Big-Note-8-800-300-GIF-1.gif" style={{width: '100%'}}/>
           </div>
           <div>
           <img src="/src/assets/image/slider2.jpg" style={{width: '100%'}}/>

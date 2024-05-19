@@ -221,6 +221,34 @@ const resetPassword = (data) => {
   });
 };
 
+const getAllUserFilter = (month) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      var users = [];
+
+      if(month !== "no"){
+        const startDate = new Date(`${month}-01T00:00:00Z`);
+        const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 1);
+        endDate.setUTCHours(0, 0, 0, -1);
+        users = await User.find({
+          createdAt: { $gte: startDate, $lte: endDate },
+        })
+        
+      }else{
+        users = await User.find();
+      }
+
+      return resolve({
+        status: "OK",
+        message: "All User",
+        data: users
+      })
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -229,5 +257,6 @@ module.exports = {
   getAllUser,
   getDetailsUser,
   forgetPassword,
-  resetPassword
+  resetPassword,
+  getAllUserFilter
 };

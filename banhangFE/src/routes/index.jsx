@@ -13,6 +13,7 @@ import MyOrder from "../pages/MyOrder/MyOrder";
 import DetailOrder from "../pages/DetailOrder/DetailOrder";
 import ForgetPassword from "../pages/ForgetPassword/ForgetPassword";
 import ResetPassword from "../pages/ResetPassword/ResetPassword";
+import ContactPage from "../pages/ContactPage/ContactPage";
 
 export const routes = [
     {
@@ -42,6 +43,12 @@ export const routes = [
     {
         path: "/ordersuccess",
         page: OrderSuccess,
+        isShowHeader: true,
+        isPrivate: false
+    },
+    {
+        path: "/contact",
+        page: ContactPage,
         isShowHeader: true,
         isPrivate: false
     },

@@ -149,7 +149,7 @@ function AdminUser() {
   const fetchGetDetaiUser = async (id) => {
     setLoadingDetail(true);
     setRowSelected(id);
-    const res = await UserService.getDetailsUser(id);
+    const res = await UserService.getDetailsUser(id,user?.access_token);
     setUserInfor({      
       name: res?.data?.name || "",
       email: res?.data?.email ,
@@ -236,7 +236,7 @@ function AdminUser() {
     config: { retry: 3, retryDelay: 1000 },
   });
 
-  const { data } = queryUser;
+  const { data ,isLoading: isLoadingAllUsser } = queryUser;
 
   const dataTable = data?.data.map((user) => {
     return { ...user, key: user._id,isAdmin: user.isAdmin ? "TRUE": "FALSE" };
@@ -291,6 +291,7 @@ function AdminUser() {
   };
 
   return (
+    <Loading isLoading={isLoadingAllUsser}>
     <div className="adminproduct">
       <h1>Danh sách khách hàng</h1>
       <>
@@ -392,6 +393,7 @@ function AdminUser() {
         />
       </div>
     </div>
+    </Loading>
   );
 }
 

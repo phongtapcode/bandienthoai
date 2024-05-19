@@ -70,3 +70,15 @@ export const resetPassword = async (data) => {
   const res = await axios.post(`${import.meta.env.VITE_SOME_KEY_URL}/user/reset-password`,data);
     return res.data;
 }
+
+export const getAllUserFilter = async (month) => {
+  const res = await axiosJWT.get(
+    `${import.meta.env.VITE_SOME_KEY_URL}/user/getAllFilter`,
+    {
+      params: {
+        month: month,
+      },
+    }
+  );
+  return res.data;
+};

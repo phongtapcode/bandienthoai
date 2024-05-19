@@ -31,7 +31,7 @@ const menu = [
   },
   {
     title: "LIÊN HỆ",
-    href: "#",
+    href: "/contact",
   },
   {
     title: "HỆ THỐNG SIÊU THỊ",

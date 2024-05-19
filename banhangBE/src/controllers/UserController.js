@@ -192,6 +192,17 @@ const resetPassword = async (req, res) => {
   }
 }
 
+const getAllUserFilter = async (req, res) => {
+  try {
+    const { month } = req.query;
+
+    const response = await UserService.getAllUserFilter(month);
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(404).json({ message: e });
+  }
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -202,5 +213,6 @@ module.exports = {
   refreshToken,
   logoutUser,
   forgetPassword,
-  resetPassword
+  resetPassword,
+  getAllUserFilter
 };

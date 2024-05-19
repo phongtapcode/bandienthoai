@@ -38,6 +38,7 @@ function AdminOrder() {
     setSearchedColumn(dataIndex);
   };
 
+  console.log(rowSelected)
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
