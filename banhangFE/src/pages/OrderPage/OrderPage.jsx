@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { Table, Modal } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import * as message from "../../components/Message/Message"
+import * as message from "../../components/Message/Message";
 import {
   increaseAmount,
   decreaseAmount,
   removeOrderProduct,
   removeListOrderProduct,
-  selectedOrder
+  selectedOrder,
 } from "../../redux/action";
 import StepComponent from "../../components/StepComponent/StepComponent";
 
@@ -25,11 +25,12 @@ function numberToString(num) {
 function OrderPage() {
   const orderProducts = useSelector((state) => state.orderProduct);
   const user = useSelector((state) => state.dataUser);
-  const [inforShip,setInforShip] = useState({
+  const [inforShip, setInforShip] = useState({
     name: user.name || "Chưa cập nhật",
     phone: user.phone || "Chưa cập nhật",
-    address: user.address ||  "Chưa cập nhật"
-  })
+    address: user.address || "Chưa cập nhật",
+  });
+  const [isHiddenPayment, setIsHiddenPayment] = useState(false);
   const [listOrderProducts, setListOrderProducts] = useState([]);
   const [listSelectedOrderProducts, setListSelectedOrderProducts] = useState(
     []
@@ -44,13 +45,13 @@ function OrderPage() {
   });
   const dispatch = useDispatch();
 
-  useEffect(()=>{
+  useEffect(() => {
     setInforShip({
       name: user.name || "Chưa cập nhật",
       phone: user.phone || "Chưa cập nhật",
-      address: user.address ||  "Chưa cập nhật"
-    })
-  },[user])
+      address: user.address || "Chưa cập nhật",
+    });
+  }, [user]);
 
   useEffect(() => {
     setListOrderProducts(
@@ -91,7 +92,6 @@ function OrderPage() {
       shipPrice,
       newPrice: oldPrice - voucherPrice + (oldPrice === 0 ? 0 : shipPrice),
     });
-
   }, [listSelectedOrderProducts]);
 
   useEffect(() => {
@@ -126,7 +126,7 @@ function OrderPage() {
       </div>
     );
   };
-  console.log(listSelectedOrderProducts)
+
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       setListSelectedOrderProducts(selectedRows);
@@ -207,7 +207,7 @@ function OrderPage() {
 
   const handleUpdateUser = () => {
     setIsModalOpen(false);
-    navigate("/profile")
+    navigate("/profile");
   };
 
   const handleCancel = () => {
@@ -216,22 +216,26 @@ function OrderPage() {
 
   const handleDetailUser = () => {
     setIsModalOpen(true);
-  }
-  
+  };
+
   const handlePayment = () => {
-    if(listSelectedOrderProducts.length === 0){
+    if (listSelectedOrderProducts.length === 0) {
       message.error("Vui lòng chọn sản phẩm");
-    }else if(inforShip.name === "Chưa cập nhật" || inforShip.address === "Chưa cập nhật" || inforShip.phone === "Chưa cập nhật" ){
+    } else if (
+      inforShip.name === "Chưa cập nhật" ||
+      inforShip.address === "Chưa cập nhật" ||
+      inforShip.phone === "Chưa cập nhật"
+    ) {
       message.error("Vui lòng nhập đủ thông tin giao hàng");
-    }else{
+    } else {
       dispatch(selectedOrder(listSelectedOrderProducts));
-      navigate("/payment")
+      navigate("/payment");
     }
-  }
+  };
 
   return (
     <main className="orderproduct">
-      <StepComponent stepCurrent={user?.id ? 1 : 0}/>
+      <StepComponent stepCurrent={user?.id ? 1 : 0} />
       <div className="orderproduct__listproduct">
         <Table
           rowSelection={{
@@ -243,47 +247,62 @@ function OrderPage() {
       </div>
 
       <div className="orderproduct__payment">
-        <div className="orderproduct__payment__selectlistroder">
-          <div className="orderproduct__payment__selectlistroder--left">
-            <span className="selected">{`Đã chọn (${listSelectedOrderProducts?.length}) sản phẩm`}</span>
-            <span
-              className="deleteselected"
-              onClick={handleDeleteListOrderProduct}
-            >
-              Xóa
-            </span>
-          </div>
-          <div className="orderproduct__payment__selectlistroder--right">
-            <span className="userinfor">
-              {`Địa chỉ giao: `}
-              <i>{inforShip?.address}</i>
-              <span onClick={handleDetailUser}>Thay đổi</span>
-            </span>
-            <Modal
-              title="Thông tin giao hàng"
-              open={isModalOpen}
-              onOk={handleUpdateUser}
-              onCancel={handleCancel}
-              okText={"Cập nhật lại thông tin"}
-            >
-              <div className="inforship__item">
-                {`Tên người nhận: ${inforShip?.name}`}
-              </div>
-              <div className="inforship__item">
-                {`Số điện thoại: ${inforShip?.phone}`}
-              </div>
-              <div className="inforship__item">
-                {`Địa chỉ: ${inforShip?.address}`}
-              </div>
+        <i
+          className="fa-solid fa-chevron-down icon__hidden"
+          onClick={() => setIsHiddenPayment(!isHiddenPayment)}
+          style={{
+    transform: isHiddenPayment ? 'rotate(0deg)' : 'rotate(180deg)',
+    transition: 'transform 0.3s ease-in-out',
+    cursor: 'pointer',
+  }}
+        ></i>
 
-            </Modal>
-          </div>
-        </div>
-        <div className="orderproduct__payment__voucher">
-          <span>
-            <i className="fa-solid fa-ticket"></i> Sử dụng voucher
-          </span>
-        </div>
+        {isHiddenPayment && (
+          <>
+            <div className="orderproduct__payment__selectlistroder">
+              <div className="orderproduct__payment__selectlistroder--left">
+                <span className="selected">{`Đã chọn (${listSelectedOrderProducts?.length}) sản phẩm`}</span>
+                <span
+                  className="deleteselected"
+                  onClick={handleDeleteListOrderProduct}
+                >
+                  Xóa
+                </span>
+              </div>
+              <div className="orderproduct__payment__selectlistroder--right">
+                <span className="userinfor">
+                  {`Địa chỉ giao: `}
+                  <i>{inforShip?.address}</i>
+                  <span onClick={handleDetailUser}>Thay đổi</span>
+                </span>
+                <Modal
+                  title="Thông tin giao hàng"
+                  open={isModalOpen}
+                  onOk={handleUpdateUser}
+                  onCancel={handleCancel}
+                  okText={"Cập nhật lại thông tin"}
+                >
+                  <div className="inforship__item">
+                    {`Tên người nhận: ${inforShip?.name}`}
+                  </div>
+                  <div className="inforship__item">
+                    {`Số điện thoại: ${inforShip?.phone}`}
+                  </div>
+                  <div className="inforship__item">
+                    {`Địa chỉ: ${inforShip?.address}`}
+                  </div>
+                </Modal>
+              </div>
+            </div>
+
+            <div className="orderproduct__payment__voucher">
+              <span>
+                <i className="fa-solid fa-ticket"></i> Sử dụng voucher
+              </span>
+            </div>
+          </>
+        )}
+
         <div className="orderproduct__payment__preparebill">
           <div className="orderproduct__payment__preparebill__calculate">
             <div className="orderproduct__payment__preparebill__calculate--item">
@@ -312,7 +331,10 @@ function OrderPage() {
                 prices.newPrice
               )}đ`}</span>
             </div>
-            <div className="orderproduct__payment__preparebill__totalprice--buttonpay" onClick={handlePayment}>
+            <div
+              className="orderproduct__payment__preparebill__totalprice--buttonpay"
+              onClick={handlePayment}
+            >
               Mua hàng
             </div>
           </div>

@@ -12,7 +12,6 @@ export const getAllProduct = async (search) => {
 }
 
 export const getAllProductFilter = async (valueFilter) => {
-    console.log(valueFilter)
     const res = await axios.get(`${import.meta.env.VITE_SOME_KEY_URL}/product/getAllFilter`,{
       params: valueFilter
     });

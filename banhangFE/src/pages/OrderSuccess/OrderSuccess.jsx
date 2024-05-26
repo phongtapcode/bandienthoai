@@ -58,8 +58,6 @@ function OrderSuccess() {
     setListSelectedOrderProducts(orderProducts.orderItemsSelected);
   }, [listSelectedOrderProducts]);
 
-  console.log(prices);
-
   return (
     <>
       <StepComponent stepCurrent={user?.id ? 2 : 0} />

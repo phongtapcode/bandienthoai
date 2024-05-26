@@ -98,7 +98,7 @@ function AdminRevenue() {
       });
     }
   };
-console.log(dataRevenue)
+
   return (
     <Loading isLoading={isLoadingFilterOrder || isLoadingFilterUser}>
       <div className="revenue">

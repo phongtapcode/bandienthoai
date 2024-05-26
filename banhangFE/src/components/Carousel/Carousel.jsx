@@ -12,16 +12,16 @@ function Carousel(){
       };
       return (
         <Slider {...settings}>
-          <div>
+          <div className="item__carousel">
             <img src="https://mauweb.monamedia.net/thegioididong/wp-content/uploads/2017/12/banner-Samsung-Big-Note-8-800-300-GIF-1.gif" style={{width: '100%'}}/>
           </div>
-          <div>
+          <div className="item__carousel">
           <img src="/src/assets/image/slider2.jpg" style={{width: '100%'}}/>
           </div>
-          <div>
+          <div className="item__carousel">
           <img src="/src/assets/image/slider3.jpg" style={{width: '100%'}}/>
           </div>
-          <div>
+          <div className="item__carousel">
           <img src="/src/assets/image/slider4.jpg" style={{width: '100%'}}/>
           </div>
         </Slider>

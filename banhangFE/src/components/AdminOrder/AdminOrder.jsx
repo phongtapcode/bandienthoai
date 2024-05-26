@@ -38,7 +38,6 @@ function AdminOrder() {
     setSearchedColumn(dataIndex);
   };
 
-  console.log(rowSelected)
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
@@ -275,7 +274,7 @@ function AdminOrder() {
             <span>{`Thời gian đặt đơn: ${formatDateTime(rowSelected?.createdAt)}`}</span>
               <span>{`Hình thức khi thanh toán: ${rowSelected?.paymentMethod}`}</span>
               <div>Trạng thái giao:
-                <Select
+                <Select 
                   value={rowSelected?.shipped}
                   onChange={handleUpdateDelivery}
                   className="selectstate"

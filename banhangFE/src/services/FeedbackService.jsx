@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const createFeedback = async (data) => {
-  console.log(data);
   const res = await axios.post(
     `${import.meta.env.VITE_SOME_KEY_URL}/feedback/create`,
     data
@@ -25,7 +24,6 @@ export const updateFeedback = async (id, data) => {
 };
 
 export const deleteFeedback = async (id) => {
-    console.log(id)
   const res = await axios.delete(
     `${import.meta.env.VITE_SOME_KEY_URL}/feedback/delete-feedback/${id}`
   );

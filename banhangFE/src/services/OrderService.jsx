@@ -63,7 +63,6 @@ export const updateOrder = async (access_token, id, data) => {
 };
 
 export const cancelOrder = async (access_token, id, cancelOrder) => {
-  console.log(cancelOrder);
   const res = await axiosJWT.delete(
     `${import.meta.env.VITE_SOME_KEY_URL}/order/cancel-order/${id}`,
     { data: cancelOrder },

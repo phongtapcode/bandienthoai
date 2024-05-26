@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import * as OrderService from "../../services/OrderService";
 import { useMutation } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import { Modal } from "antd";
-import { useState } from "react";
+import { Modal, Select } from "antd";
+import { useEffect, useState } from "react";
 
 function numberToString(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -23,9 +23,11 @@ function MyOrder() {
   const [idCancel, setIdCancel] = useState("");
   const [ordersCancel, setOrdersCancel] = useState([]);
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
-  const [isLoadingOrder,setIsLoadingOrder] = useState(false);
+  const [isLoadingOrder, setIsLoadingOrder] = useState(false);
+  const [stateOrder, setStateOrder] = useState("Tất cả đơn hàng");
+  const [listOrderFilter, setListOrderFilter] = useState([]);
   const navigate = useNavigate();
-  
+
   const fetchMyOrder = async () => {
     setIsLoadingOrder(true);
     const res = await OrderService.getOrderByUserId(
@@ -44,7 +46,9 @@ function MyOrder() {
 
   const { data } = queryOrder;
 
-  console.log(data?.data);
+  useEffect(() => {
+    setListOrderFilter(data?.data);
+  },[data])
 
   const handleDetailOrder = (id) => {
     navigate(`/detail-order/${id}`);
@@ -88,12 +92,12 @@ function MyOrder() {
     },
   });
 
-  const {isPending: isLoadingUpdate} = mutationUpdate;
+  const { isPending: isLoadingUpdate } = mutationUpdate;
 
-  const handleUpdateDelivery = (id,isDelivered) => {
-    if(isDelivered === "Chưa giao hàng"){
+  const handleUpdateDelivery = (id, isDelivered) => {
+    if (isDelivered === "Chưa giao hàng") {
       message.error("Đơn hàng đang được xử lí");
-    }else{
+    } else {
       mutationUpdate.mutate(
         {
           token: user?.access_token,
@@ -111,16 +115,51 @@ function MyOrder() {
     }
   };
 
+  const handleChangeOrder = (value) => {
+    setStateOrder(value);
+
+    if(value === "Đơn hàng đang thực hiện") {
+      const listOrder = data?.data?.filter(item => (item.isDelivered === "Đang giao" ||  item.isDelivered === "Chưa giao hàng"));
+      setListOrderFilter(listOrder);
+    }else if(value === "Đơn đã hoàn thành"){
+      const listOrder = data?.data?.filter(item => (item.isDelivered === "Đã nhận được hàng"));
+      setListOrderFilter(listOrder);
+    }else {
+      setListOrderFilter(data?.data);
+    }
+    
+  };
+
+  console.log(listOrderFilter)
+
   return (
     <Loading isLoading={isLoadingOrder || isLoadingCancel || isLoadingUpdate}>
+    
+      <div style={{textAlign: "center", marginTop: "10px"}}>
+
+      <Select
+        value={stateOrder}
+        onChange={handleChangeOrder}
+        className="allorder"
+        options={[
+          { value: "Tất cả đơn hàng", label: "Tất cả đơn hàng" },
+          {
+            value: "Đơn hàng đang thực hiện",
+            label: "Đơn hàng đang thực hiện",
+          },
+          { value: "Đơn đã hoàn thành", label: "Đơn đã hoàn thành" },
+        ]}
+      />
+      </div>
+
       <main className="myorder">
-        {data?.data.map((item, index) => {
+        {listOrderFilter?.map((item, index) => {
           return (
             <div className="myorder__item" key={index}>
               <div className="myorder__item__state">
                 <h1>Trạng thái</h1>
                 <span>
-                  <span style={{ color: "red" }}>Đặt hàng lúc:  </span>
+                  <span style={{ color: "red" }}>Đặt hàng lúc: </span>
                   {formatDateTime(item?.createdAt)}
                 </span>
                 <span>
@@ -129,19 +168,15 @@ function MyOrder() {
                 </span>
                 <span>
                   <span style={{ color: "red" }}>Thanh toán: </span>
-                  {!item?.isPaid
-                    ? "Chưa thanh toán"
-                    : "Đã thanh toán"}
+                  {!item?.isPaid ? "Chưa thanh toán" : "Đã thanh toán"}
                 </span>
 
-                {
-                  item?.isDelivered === "Đã nhận được hàng" && (
-                <span>
-                  <span style={{ color: "red" }}>Nhận được hàng lúc:  </span>
-                  {formatDateTime(item?.updatedAt)}
-                </span>
-                  )
-                }
+                {item?.isDelivered === "Đã nhận được hàng" && (
+                  <span>
+                    <span style={{ color: "red" }}>Nhận được hàng lúc: </span>
+                    {formatDateTime(item?.updatedAt)}
+                  </span>
+                )}
               </div>
 
               {item?.orderItems.map((order, i) => {
@@ -169,18 +204,16 @@ function MyOrder() {
                   {numberToString(item?.totalPrice)}
                 </div>
                 <div className="myorder__item__feature__button">
-                  {
-                    item?.isDelivered !== "Chưa giao hàng" || (
-                  <div
-                    className="myorder__item__feature__button--cancel"
-                    onClick={() =>
-                      handleCancelOrder(item?._id, item?.orderItems)
-                    }
-                  >
-                    Hủy đơn hàng
-                  </div>
-                    )
-                  }
+                  {item?.isDelivered !== "Chưa giao hàng" || (
+                    <div
+                      className="myorder__item__feature__button--cancel"
+                      onClick={() =>
+                        handleCancelOrder(item?._id, item?.orderItems)
+                      }
+                    >
+                      Hủy đơn hàng
+                    </div>
+                  )}
 
                   <>
                     <Modal
@@ -198,18 +231,17 @@ function MyOrder() {
                   >
                     Xem chi tiết
                   </div>
-                  {
-                    (item?.isDelivered !== "Đã nhận được hàng") && (
-                  <div
-                    className="myorder__item__feature__button--delivery"
-                    onClick={() => handleUpdateDelivery(item?._id,item?.isDelivered)}
-                    style={{ backgroundColor: "green" }}
-                  >
-                    Đã nhận được hàng và thanh toán
-                  </div>
-                    )
-                  }
-
+                  {item?.isDelivered !== "Đã nhận được hàng" && (
+                    <div
+                      className="myorder__item__feature__button--delivery"
+                      onClick={() =>
+                        handleUpdateDelivery(item?._id, item?.isDelivered)
+                      }
+                      style={{ backgroundColor: "green" }}
+                    >
+                      Đã nhận được hàng và thanh toán
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

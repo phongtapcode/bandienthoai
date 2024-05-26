@@ -11,7 +11,6 @@ function ResetPassword() {
   const searchParams = new URLSearchParams(location.search);
   const email = searchParams.get('email');
   const token = searchParams.get('token');
-  console.log(email,token)
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({

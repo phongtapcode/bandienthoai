@@ -71,7 +71,6 @@ function ProductPage() {
     
     const res = await ProductService.getAllProductFilter(valueFilterSearch);
     setProducts(res?.data);
-    console.log(res);
     setLoadingProducts(false);
    }
 

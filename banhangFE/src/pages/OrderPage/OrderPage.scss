@@ -1,7 +1,31 @@
 .orderproduct {
   width: 90%;
-  height: 1000px;
+  height: auto;
+  position: relative;
   margin: 0 auto;
+
+  @media (max-width: 750px) {
+    margin-top: 10px;
+    width: 100%;
+}
+
+  .icon__hidden{
+    position: absolute;
+    left: 50%;
+    font-size: 20px;
+    top: -15px;
+    background-color: white;
+    width: 50px;
+    height: 20px;
+    text-align: center;
+    border-radius: 10px;
+
+    &:hover{
+      cursor: pointer;
+    }
+  }
+
+
 
   &__listproduct {
     width: 100%;
@@ -15,6 +39,7 @@
       align-items: center;
       border-radius: 170px;
       border: 1px solid rgba(158, 146, 146, 0.61);
+      
       button {
         font-size: 15px;
         cursor: pointer;
@@ -48,13 +73,25 @@
     &__selectlistroder {
       width: 90%;
       margin: 0 auto;
-      height: 45px;
-      line-height: 40px;
+      height: auto;
+      padding: 15px 0;
       border-bottom: 1px solid rgba(0, 0, 0, 0.404);
       display: flex;
+      flex-wrap: wrap;
 
+      @media (max-width: 750px) {
+        width: 95%;
+        flex-direction: column;
+        justify-content: center;
+    }
       &--left {
         width: 50%;
+
+        @media (max-width: 750px) {
+          width: 100%;
+          text-align: center;
+      }
+
         .deleteselected {
           font-size: 1.6rem;
           &:hover {
@@ -70,9 +107,13 @@
 
       &--right {
         width: 50%;
+
+        @media (max-width: 750px) {
+          width: 100%;
+          text-align: center;
+      }
         .userinfor {
           font-size: 1.6rem;
-          margin-left: 10px;
           i {
             text-decoration: underline;
           }
@@ -105,9 +146,15 @@
       height: 100%;
       margin: 0 auto;
       display: flex;
+      @media (max-width: 750px) {
+        width: 100%;
+        flex-direction: column;
+    }
       &__calculate {
         width: 50%;
-
+        @media (max-width: 750px) {
+          width: 100%;
+      }
         &--item {
           display: flex;
           justify-content: space-between;
@@ -129,7 +176,10 @@
 
       &__totalprice {
         width: 50%;
-        margin-left: 10px;
+
+        @media (max-width: 750px) {
+          width: 100%;
+      }
         &--price {
           display: flex;
           justify-content: space-between;
@@ -161,6 +211,10 @@
           margin: 0 auto;
           margin-top: 20px;
           transition: all 0.3s ease;
+
+          @media (max-width: 750px) {
+            width: 100px;
+        }
           i {
             margin-right: 6px;
           }

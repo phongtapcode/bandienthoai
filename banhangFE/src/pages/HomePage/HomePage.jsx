@@ -51,14 +51,14 @@ function HomePage() {
     <Loading isLoading={loadingProducts}>
       <main className="main">
         <div className="main__content">
-          <div className="main__content__left">
+          <div className="main__content__title">
               <Carousel />
           </div>
         </div>
 
         <div className="main__product">
           {products?.data?.map((product, i) => (
-            <Card dataProduct={product} />
+            <Card dataProduct={product} key={i}/>
           ))}
         </div>
       </main>

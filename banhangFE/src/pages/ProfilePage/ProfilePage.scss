@@ -1,11 +1,16 @@
 .profile {
     width: 450px;
     max-height: 95%;
-    margin: 0 auto;
+    margin: 10px auto;
     border-radius: 40px;
     box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
     display: flex;
     flex-direction: column;
+    padding: 15px 0;
+
+    @media (max-width: 600px) {
+        width: 100%;
+    }
 
     .button__update {
         border: none;
@@ -20,14 +25,19 @@
         text-align: center;
         box-shadow: 3px 3px 8px #b1b1b1, -3px -3px 8px #fff;
         background-color: #ff7235;
-        transition: all .4s;
-        margin: 15px auto;
+        margin-top: 10px;
+        margin-left: 110px;
+
+        @media (max-width: 600px) {
+          height: 40px;
+          font-size: 15px;
+        }
     }
 }
 
-.ant-spin-nested-loading{
-    text-align: center;
-}
+// .ant-spin-container{
+//     text-align: center;
+// }
 
 .ant-upload-list{
     display: none;

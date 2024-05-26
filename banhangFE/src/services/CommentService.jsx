@@ -2,7 +2,6 @@ import axios from "axios";
 export const axiosJWT = axios.create();
 
 export const createComment = async (data) => {
-  console.log(data);
   const res = await axios.post(
     `${import.meta.env.VITE_SOME_KEY_URL}/comment/create`,
     data

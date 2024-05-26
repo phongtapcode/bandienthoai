@@ -1,5 +1,5 @@
 import "./Header.scss";
-import { Input,Badge, Avatar,Popover } from "antd";
+import { Badge, Avatar,Popover, Drawer } from "antd";
 import ItemCategory from "./components/ItemCategory/ItemCategory";
 import { useState,useEffect } from "react";
 import { useSelector,useDispatch } from "react-redux";
@@ -8,9 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 import Loading from "../Loading/Loading";
 import * as UserService from "../../services/UserService";
-import categoryPhone from "../../assets/category";
 
-const { Search } = Input;
 
 const menu = [
   {
@@ -41,71 +39,78 @@ const menu = [
 
 const categoryTech = [
   {
-    title: "Điện thoại",
-    children: categoryPhone.map((category)=>({name: category,href: "/products"})),
+    title: "Iphone",
+    children: [
+      { name: "Iphone 15 Promax", href: "#" },
+      { name: "Iphone 14 Promax", href: "#" },
+      { name: "Iphone 12 Promax", href: "#" },
+      { name: "Iphone 11 Promax", href: "#" },
+      { name: "......", href: "#" },
+    ],
     iconChevron: true,
     iconMain: "fa-solid fa-mobile-screen-button",
   },
-  // {
-  //   title: "Laptop",
-  //   children: [
-  //     { name: "Macbook", href: "#" },
-  //     { name: "Laptop Dell", href: "#" },
-  //     { name: "Laptop HP", href: "#" },
-  //     { name: "Laptop Asus", href: "#" },
-  //   ],
-  //   iconChevron: true,
-  //   iconMain: "fa-solid fa-laptop",
-  // },
-  // {
-  //   title: "Tablet",
-  //   children: [
-  //     { name: "Talet Ipad", href: "#" },
-  //     { name: "Tablet Beneve", href: "#" },
-  //     { name: "Tablet Itel", href: "#" },
-  //     { name: "Tablet Kindle", href: "#" },
-  //     { name: "Tablet Samsung", href: "#" },
-  //   ],
-  //   iconChevron: true,
-  //   iconMain: "fa-solid fa-tablet",
-  // },
-  // {
-  //   title: "Phụ kiện",
-  //   children: [
-  //     { name: "Bao da ốp lưng", href: "#" },
-  //     { name: "Loa", href: "#" },
-  //     { name: "Sạc", href: "#" },
-  //     { name: "Tai nghe", href: "#" },
-  //     { name: "Cường lực", href: "#" },
-  //   ],
-  //   iconChevron: true,
-  //   iconMain: "fa-solid fa-headphones",
-  // },
-  // {
-  //   title: "Smart Watch",
-  //   iconChevron: false,
-  //   iconMain: "fa-regular fa-clock",
-  // },
-  // {
-  //   title: "Apple Watch",
-  //   iconChevron: false,
-  //   iconMain: "fa-solid fa-mobile-button",
-  // },
-  // {
-  //   title: "Thiết bị văn phòng, máy in",
-  //   iconChevron: false,
-  //   iconMain: "fa-solid fa-print",
-  // },
-  // {
-  //   title: "Máy tính bộ màn hình",
-  //   iconChevron: false,
-  //   iconMain: "fa-solid fa-laptop-code",
-  // },
-  // {
-  //   title: "Tai nghe",
-  //   iconChevron: false,
-  //   iconMain: "fa-solid fa-cart-shopping",
-  // },
+  {
+    title: "Samsung",
+    children: [
+      { name: "Samsung Galaxy S23 Ultra", href: "#" },
+      { name: "Samsung Galaxy S24 Ultra", href: "#" },
+      { name: "Samsung Galaxy A15", href: "#" },
+      { name: "Samsung Galaxy M34", href: "#" },
+      { name: "......", href: "#" },
+    ],
+    iconChevron: true,
+    iconMain: "fa-solid fa-mobile-screen-button",
+  },
+  {
+    title: "Xiaomi",
+    children: [
+      { name: "Xiaomi Redmi Note 13", href: "#" },
+      { name: "Xiaomi Redmi Note 12", href: "#" },
+      { name: "Xiaomi Redmi Note 12", href: "#" },
+      { name: "Xiaomi 13T Pro", href: "#" },
+      { name: "......", href: "#" },
+    ],
+    iconChevron: true,
+    iconMain: "fa-solid fa-mobile-screen-button",
+  },
+  {
+    title: "Realme",
+    children: [
+      { name: "realme 11 Pro", href: "#" },
+      { name: "realme 11 Pro", href: "#" },
+      { name: "realme C55", href: "#" },
+      { name: "Realme 10", href: "#" },
+      { name: "......", href: "#" },
+    ],
+    iconChevron: true,
+    iconMain: "fa-solid fa-mobile-screen-button",
+  },
+  {
+    title: "Oppo",
+    iconChevron: false,
+    iconMain: "fa-solid fa-mobile-screen-button",
+  },
+  {
+    title: "Vivo",
+    iconChevron: false,
+    iconMain: "fa-solid fa-mobile-screen-button",
+  },
+  {
+    title: "Huawei",
+    iconChevron: false,
+    iconMain: "fa-solid fa-mobile-screen-button",
+  },
+  {
+    title: "Levono",
+    iconChevron: false,
+    iconMain: "fa-solid fa-mobile-screen-button",
+  },
+  {
+    title: "Sony",
+    iconChevron: false,
+    iconMain: "fa-solid fa-mobile-screen-button",
+  },
 ];
 
 function Header({ isHiddenItemHeader = false }) {
@@ -169,6 +174,16 @@ function Header({ isHiddenItemHeader = false }) {
     dispatch(valueSearch(e.target.value));
   }
 
+  const [open, setOpen] = useState(false);
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
   return (
     <header className="header">
       {!isHiddenItemHeader && (
@@ -181,19 +196,49 @@ function Header({ isHiddenItemHeader = false }) {
               <a href="/my-order">Kiểm tra đơn hàng</a>
             </li>
             <li>
-              <a href="/">Liên hệ</a>
+              <a href="/contact">Liên hệ</a>
             </li>
           </ul>
         </div>
       )}
 
+      <Drawer
+        title="PHONE STORE"
+        placement={"left"}
+        closable={false}
+        onClose={onClose}
+        open={open}
+        key="left"
+      >
+          <div className="drawer__cart">
+              <a href="/order">
+                <span>
+                  GIỎ HÀNG
+                  <Badge count={orderProducts?.orderItems?.length} offset={[5, -6]}>
+                    <i className="fa-solid fa-cart-shopping"></i>
+                  </Badge>
+                </span>
+              </a>
+          </div>
+        {
+          menu.map((item,index) => (
+            <div className="drawer" key={index} onClick={()=>{navigate(item.href); onClose()}}>
+              {item.title}
+            </div>
+          ))
+        }
+        
+      </Drawer>
+
       <div className="header__inner">
+        <div className="header__inner--icon" onClick={() => showDrawer()}><i className="fa-solid fa-bars"></i></div>
         <div className="header__inner--logo">
-          <img src="/src/assets/image/logo.jpg" onClick={()=>{navigate("/")}}/>
+          <span onClick={()=>{navigate("/")}}>Phone Store</span>
         </div>
         {!isHiddenItemHeader && (
           <div className="header__inner--search">
             <input type="text" placeholder="Search sản phẩm" onChange={onChangeSearch} value={valueInput}/>
+            <i className="fa-solid fa-magnifying-glass"></i>
           </div>
         )}
 
@@ -248,23 +293,27 @@ function Header({ isHiddenItemHeader = false }) {
               className="header__bottom__category--title"
               onClick={handleClickTitleCategory}
             >
-              DANH MỤC SẢN PHẨM
+              DANH MỤC ĐIỆN THOẠI
             </h1>
+            <div className="header__bottom__category--content">
             {hiddenCategory ||
               categoryTech.map((category, index) => (
                 <ItemCategory data={category} key={index} />
               ))}
+            </div>
           </div>
+
           <div className="header__bottom__menu">
             {menu.map((item, index) => {
               return (
+                <div key={index}>
                 <a
-                  key={index}
                   href={item.href}
                   style={index === currentMenu ? { color: "#f57e20" } : {}}
                 >
                   {item.title}
                 </a>
+                </div>
               );
             })}
           </div>
