@@ -130,8 +130,6 @@ function MyOrder() {
     
   };
 
-  console.log(listOrderFilter)
-
   return (
     <Loading isLoading={isLoadingOrder || isLoadingCancel || isLoadingUpdate}>
     

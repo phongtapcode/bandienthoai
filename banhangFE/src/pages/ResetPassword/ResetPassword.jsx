@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate,useParams,useLocation } from "react-router-dom";
-import { Button, Checkbox, Form, Input } from "antd";
+import { useNavigate,useLocation } from "react-router-dom";
+import { Button, Form, Input } from "antd";
 import { useMutation } from "@tanstack/react-query";
 import Loading from "../../components/Loading/Loading";
 import * as UserService from "../../services/UserService";
@@ -127,7 +127,7 @@ function ResetPassword() {
               : { backgroundColor: "blue" }
           }
         >
-          Tạo tài khoản
+          Xác nhận
         </Button>
       </Loading>
     </Form>

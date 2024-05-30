@@ -158,6 +158,7 @@ function PaymentPage() {
   const handleRadioChange = (event) => {
     setSelectedOption(event.target.value);
   };
+  
   return (
     <Loading isLoading={isLoadingAddOrder}>
           <StepComponent stepCurrent={user?.id ? 1 : 0}/>
